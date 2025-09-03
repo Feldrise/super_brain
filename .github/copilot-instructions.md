@@ -2,13 +2,13 @@
 
 ## Project Overview
 
-**SuperBrain** helps users improve memory and cognitive well-being through a daily **Home** hub (Tip of the Day, Words to remember), a **Reminder** space for **course summaries** with **spaced repetition**, and a **Morning Routine** (dream journal, daily journal, guided breathing, short training sessions).
+**SuperBrain** helps users improve memory and cognitive well-being through a daily **Home** hub (Tip of the Day, Memory training progress), a **Reminder** space for **memory training word lists** and **course summaries** with **spaced repetition**, and a **Morning Routine** (dream journal, daily journal, guided breathing, short training sessions).
 
 **Primary goals (MVP)**
 
 - Frictionless onboarding (Email/Google/Apple).
-- Daily habit loop: Home → Morning routine → Quick review.
-- Simple content model: tips, words, summaries, journals.
+- Daily habit loop: Home → Morning routine → Memory training.
+- Simple content model: tips, word lists for memory training, summaries, journals.
 - Push notifications for reminders + routines.
 
 ---
@@ -42,8 +42,8 @@ superbrain/
 │  │  ├─ auth/
 │  │  ├─ home/                  # Tip of day, quick stats, shortcuts
 │  │  ├─ tips/
-│  │  ├─ words/                 # word lists, study sessions
-│  │  ├─ reminder/              # course summaries, spaced repetition
+│  │  ├─ words/                 # memory training word lists, memory sessions
+│  │  ├─ reminder/              # word lists, course summaries, spaced repetition
 │  │  ├─ morning/
 │  │  │  ├─ journal/            # dreams & daily entries
 │  │  │  ├─ breath/             # guided breathing
@@ -75,7 +75,7 @@ Collections (prefix with `users/{uid}/` where noted):
 
 - `users` (root): `{ displayName, email, photoURL, createdAt, streakCount, lastActiveAt, routineConfig }`
 - `tips` (global, curated): `{ id, text, category, locale, weight, active }`
-- `users/{uid}/words`: `{ id, term, meaning, tags[], createdAt, nextReviewAt, easiness, interval, reps }`
+- `users/{uid}/word_lists`: `{ id, title, words[], difficulty, createdAt, nextReviewAt, easiness, interval, reps }`
 - `users/{uid}/summaries`: `{ id, title, body (md), tags[], createdAt, nextReviewAt, srsMeta }`
 - `users/{uid}/journals`: `{ id, type: "dream"|"daily", content, mood?, createdAt }`
 - `users/{uid}/breath_sessions`: `{ id, pattern:"coherence|4-7-8|box", durationSec, completedAt }`
@@ -84,7 +84,7 @@ Collections (prefix with `users/{uid}/` where noted):
 
 Indexes to create:
 
-- `users/{uid}/words` on `nextReviewAt` (ASC) where `nextReviewAt <= now()`
+- `users/{uid}/word_lists` on `nextReviewAt` (ASC) where `nextReviewAt <= now()`
 - `users/{uid}/summaries` on `nextReviewAt` (ASC)
 - `tips` on `active==true`, `locale`
 
@@ -133,26 +133,26 @@ final router = GoRouter(
 ## State Management (Riverpod)
 
 - **Service providers** for Auth, Firestore, Messaging, Analytics.
-- **Repository providers** per feature (wordsRepository, summariesRepository…).
+- **Repository providers** per feature (wordListsRepository, summariesRepository…).
 - **ViewModel** (StateNotifier) per screen for load/save/submit/complete.
 
 ```dart
-final wordsDueProvider = StreamProvider.autoDispose((ref) {
+final wordListsDueProvider = StreamProvider.autoDispose((ref) {
   final uid = ref.watch(authStateProvider).value?.uid;
   if (uid == null) return const Stream.empty();
   final fs = ref.watch(firestoreProvider);
-  return fs.collection('users/$uid/words')
+  return fs.collection('users/$uid/word_lists')
       .where('nextReviewAt', isLessThanOrEqualTo: Timestamp.now())
       .orderBy('nextReviewAt')
       .limit(50)
       .snapshots()
-      .map((snap) => snap.docs.map((d)=> Word.fromJson(d.data())).toList());
+      .map((snap) => snap.docs.map((d)=> WordList.fromJson(d.data())).toList());
 });
 ```
 
 ---
 
-## Repetition Spacée (SRS) – Words & Summaries
+## Repetition Spacée (SRS) – Word Lists & Summaries
 
 - Use SM-2 inspired fields: `easiness`, `interval`, `reps`, `nextReviewAt`.
 - Update SRS after each review (quality 0-5).
@@ -160,19 +160,19 @@ final wordsDueProvider = StreamProvider.autoDispose((ref) {
 
 ```dart
 @freezed
-class Word with _$Word {
-  const factory Word({
+class WordList with _$WordList {
+  const factory WordList({
     required String id,
-    required String term,
-    required String meaning,
-    @Default([]) List<String> tags,
+    required String title,
+    required List<String> words,
+    @Default('Moyen') String difficulty,
     DateTime? nextReviewAt,
     @Default(2.5) double easiness,
     @Default(1) int interval,
     @Default(0) int reps,
     required DateTime createdAt,
-  }) = _Word;
-  factory Word.fromJson(Map<String,dynamic> json)=> _$WordFromJson(json);
+  }) = _WordList;
+  factory WordList.fromJson(Map<String,dynamic> json)=> _$WordListFromJson(json);
 }
 ```
 

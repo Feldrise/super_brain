@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "467274672074",
+    "project_id": "superbrain-feldrise",
+    "storage_bucket": "superbrain-feldrise.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467274672074:android:abf934d50a70a7e530d133",
+        "android_client_info": {
+          "package_name": "com.example.super_brain"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKCuEr4iDK352wJb0dy53hd3bouRJpxoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467274672074:android:6099e80815b614d330d133",
+        "android_client_info": {
+          "package_name": "com.feldrise.super_brain"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKCuEr4iDK352wJb0dy53hd3bouRJpxoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

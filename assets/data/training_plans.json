@@ -1,0 +1,442 @@
+{
+    "training_plans": [
+        {
+            "id": "cardio_quick_5",
+            "name": "5-Minute Cardio Burst",
+            "description": "Quick cardio session to get your heart pumping",
+            "category": "cardio",
+            "difficulty": "beginner",
+            "estimatedDuration": 5,
+            "exercises": [
+                {
+                    "id": "jumping_jacks",
+                    "name": "Jumping Jacks",
+                    "description": "Classic cardio exercise",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Jump with feet apart while raising arms overhead, then return to starting position",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15",
+                    "name": "Rest",
+                    "description": "Take a breather",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "high_knees",
+                    "name": "High Knees",
+                    "description": "Run in place lifting knees high",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Run in place, bringing knees up to waist level",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_2",
+                    "name": "Rest",
+                    "description": "Take a breather",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "butt_kicks",
+                    "name": "Butt Kicks",
+                    "description": "Run in place kicking heels to glutes",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Run in place, kicking heels back toward your glutes",
+                    "muscleGroups": [
+                        "legs"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_3",
+                    "name": "Rest",
+                    "description": "Take a breather",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "mountain_climbers",
+                    "name": "Mountain Climbers",
+                    "description": "Cardio exercise in plank position",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Start in plank position, alternate bringing knees to chest rapidly",
+                    "muscleGroups": [
+                        "core",
+                        "arms",
+                        "legs"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "quick",
+                "no-equipment",
+                "beginner"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "strength_bodyweight_10",
+            "name": "10-Minute Bodyweight Strength",
+            "description": "Build strength using only your body weight",
+            "category": "strength",
+            "difficulty": "intermediate",
+            "estimatedDuration": 10,
+            "exercises": [
+                {
+                    "id": "push_ups",
+                    "name": "Push-ups",
+                    "description": "Classic upper body exercise",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Start in plank position, lower chest to ground, push back up",
+                    "muscleGroups": [
+                        "chest",
+                        "arms",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_30",
+                    "name": "Rest",
+                    "description": "Recovery time",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "squats",
+                    "name": "Squats",
+                    "description": "Lower body strength exercise",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 15,
+                    "instructions": "Stand with feet shoulder-width apart, lower hips back and down, return to standing",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_30_2",
+                    "name": "Rest",
+                    "description": "Recovery time",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "plank",
+                    "name": "Plank",
+                    "description": "Core stability exercise",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Hold plank position, body straight from head to heels",
+                    "muscleGroups": [
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_30_3",
+                    "name": "Rest",
+                    "description": "Recovery time",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "lunges",
+                    "name": "Lunges",
+                    "description": "Single leg strength exercise",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Step forward into lunge position, alternate legs",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "bodyweight",
+                "strength",
+                "no-equipment"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "yoga_morning_15",
+            "name": "15-Minute Morning Yoga",
+            "description": "Gentle yoga flow to start your day",
+            "category": "yoga",
+            "difficulty": "beginner",
+            "estimatedDuration": 15,
+            "exercises": [
+                {
+                    "id": "child_pose",
+                    "name": "Child's Pose",
+                    "description": "Restful starting position",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Kneel and sit back on heels, stretch arms forward",
+                    "muscleGroups": [
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "cat_cow",
+                    "name": "Cat-Cow Stretch",
+                    "description": "Spine mobility exercise",
+                    "type": "timed",
+                    "duration": 90,
+                    "instructions": "On hands and knees, alternate arching and rounding your back",
+                    "muscleGroups": [
+                        "back",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "downward_dog",
+                    "name": "Downward Facing Dog",
+                    "description": "Classic yoga pose",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Form inverted V shape with hands and feet on ground",
+                    "muscleGroups": [
+                        "arms",
+                        "legs",
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "warrior_1",
+                    "name": "Warrior I",
+                    "description": "Standing strength pose",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Lunge position with arms raised overhead",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "warrior_1_other",
+                    "name": "Warrior I (Other Side)",
+                    "description": "Standing strength pose, opposite leg",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Lunge position with arms raised overhead, opposite leg forward",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "seated_twist",
+                    "name": "Seated Spinal Twist",
+                    "description": "Gentle spine rotation",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Sit cross-legged, twist torso left and right",
+                    "muscleGroups": [
+                        "back",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "savasana",
+                    "name": "Savasana",
+                    "description": "Final relaxation",
+                    "type": "timed",
+                    "duration": 120,
+                    "instructions": "Lie flat on back, relax completely",
+                    "muscleGroups": [],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "yoga",
+                "flexibility",
+                "morning",
+                "relaxation"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "cardio_hiit_10",
+            "name": "10-Minute HIIT Cardio",
+            "description": "High-intensity interval training for maximum burn",
+            "category": "cardio",
+            "difficulty": "intermediate",
+            "estimatedDuration": 10,
+            "exercises": [
+                {
+                    "id": "burpees",
+                    "name": "Burpees",
+                    "description": "Full body explosive movement",
+                    "type": "timed",
+                    "duration": 30,
+                    "instructions": "Squat down, jump back to plank, push-up, jump forward, jump up",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20",
+                    "name": "Rest",
+                    "description": "Recovery time",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "jump_squats",
+                    "name": "Jump Squats",
+                    "description": "Explosive squat variation",
+                    "type": "timed",
+                    "duration": 30,
+                    "instructions": "Perform squat then jump explosively upward",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_2",
+                    "name": "Rest",
+                    "description": "Recovery time",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "hiit",
+                "intense",
+                "fat-burn"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "strength_upper_15",
+            "name": "15-Minute Upper Body Strength",
+            "description": "Target your arms, chest, and back",
+            "category": "strength",
+            "difficulty": "advanced",
+            "estimatedDuration": 15,
+            "exercises": [
+                {
+                    "id": "diamond_pushups",
+                    "name": "Diamond Push-ups",
+                    "description": "Tricep-focused push-up variation",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 8,
+                    "instructions": "Form diamond shape with hands, perform push-ups",
+                    "muscleGroups": [
+                        "triceps",
+                        "chest"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "pike_pushups",
+                    "name": "Pike Push-ups",
+                    "description": "Shoulder-focused exercise",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Start in downward dog position, perform push-ups",
+                    "muscleGroups": [
+                        "shoulders",
+                        "arms"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "upper-body",
+                "advanced",
+                "strength"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "yoga_evening_20",
+            "name": "20-Minute Evening Wind Down",
+            "description": "Relaxing yoga session to end your day",
+            "category": "yoga",
+            "difficulty": "beginner",
+            "estimatedDuration": 20,
+            "exercises": [
+                {
+                    "id": "gentle_flow",
+                    "name": "Gentle Flow",
+                    "description": "Slow, controlled movements",
+                    "type": "timed",
+                    "duration": 300,
+                    "instructions": "Move slowly through basic yoga poses",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "meditation",
+                    "name": "Meditation",
+                    "description": "Mindful breathing",
+                    "type": "timed",
+                    "duration": 900,
+                    "instructions": "Sit comfortably and focus on your breath",
+                    "muscleGroups": [],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "evening",
+                "relaxation",
+                "meditation"
+            ],
+            "isActive": true
+        }
+    ]
+}

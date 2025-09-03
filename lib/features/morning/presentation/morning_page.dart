@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:super_brain/features/training/presentation/pages/training_hub_page.dart';
 
 class MorningPage extends StatelessWidget {
   const MorningPage({super.key});
@@ -65,7 +66,11 @@ class _RoutineGrid extends StatelessWidget {
           color: item['color']! as Color,
           completed: item['completed']! as bool,
           onTap: () {
-            // TODO: Navigate to specific routine
+            if (item['title'] == 'Entraînement') {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingHubPage()));
+            } else {
+              // TODO: Navigate to other routines
+            }
           },
         );
       },

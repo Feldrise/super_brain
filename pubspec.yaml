@@ -7,6 +7,7 @@ environment:
   sdk: ^3.9.0
 
 dependencies:
+  audioplayers: ^6.5.1
   cloud_firestore: ^6.0.1
   file_picker: ^10.3.2
   firebase_auth: ^6.0.2
@@ -40,3 +41,4 @@ flutter:
 
   assets:
     - assets/data/
+    - assets/sounds/

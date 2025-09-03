@@ -12,6 +12,14 @@ class TrainingSessionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sessionState = ref.watch(activeTrainingSessionProvider);
 
+    // Listen for session completion and show completion dialog
+    ref.listen(activeTrainingSessionProvider, (previous, next) {
+      if (previous?.value != null && next.value == null) {
+        // Session was completed
+        _showSessionCompletedDialog(context);
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(plan.name),
@@ -39,18 +47,51 @@ class TrainingSessionPage extends ConsumerWidget {
     );
   }
 
+  void _showSessionCompletedDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.celebration, color: Colors.orange, size: 32),
+            const SizedBox(width: 8),
+            const Text('Workout Complete!'),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Great job completing ${plan.name}!', style: Theme.of(context).textTheme.bodyLarge),
+            const SizedBox(height: 16),
+            Text('You\'ve successfully finished your training session.', style: Theme.of(context).textTheme.bodyMedium),
+          ],
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close dialog
+              Navigator.of(context).pop(); // Go back to training hub
+            },
+            child: const Text('Done'),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _showExitDialog(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Exit Training?'),
         content: const Text('Your progress will be lost if you exit now.'),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Continue')),
+          TextButton(onPressed: () => Navigator.of(dialogContext).pop(), child: const Text('Continue')),
           TextButton(
             onPressed: () {
               ref.read(activeTrainingSessionProvider.notifier).cancelSession();
-              Navigator.of(context).pop(); // Close dialog
+              Navigator.of(dialogContext).pop(); // Close dialog
               Navigator.of(context).pop(); // Close session page
             },
             child: const Text('Exit'),
@@ -122,6 +163,12 @@ class _BuildSessionStartView extends ConsumerWidget {
   void _startSession(BuildContext context, WidgetRef ref) {
     const userId = 'current_user_id'; // This would come from auth
     ref.read(activeTrainingSessionProvider.notifier).startSession(userId, plan);
+
+    // Start timer for the first exercise if it's timed
+    final firstExercise = plan.exercises.first;
+    if (firstExercise.type == ExerciseType.timed || firstExercise.type == ExerciseType.rest) {
+      ref.read(exerciseTimerProvider.notifier).startTimer(firstExercise.duration);
+    }
   }
 }
 
@@ -202,13 +249,15 @@ class _BuildActiveSessionView extends ConsumerWidget {
 
           const SizedBox(height: 24),
 
-          // Exercise timer/controls
-          _ExerciseTimerWidget(exercise: activeSession.currentExercise, timerState: timerState),
+          // Exercise timer/controls - this now handles its own buttons
+          Expanded(
+            child: _ExerciseTimerWidget(exercise: activeSession.currentExercise, timerState: timerState),
+          ),
 
-          const Spacer(),
+          const SizedBox(height: 16),
 
-          // Action buttons
-          _SessionActionButtons(activeSession: activeSession),
+          // Simplified action buttons - only show pause/emergency stop
+          _SimplifiedActionButtons(activeSession: activeSession),
         ],
       ),
     );
@@ -290,20 +339,59 @@ class _ExerciseTimerWidget extends ConsumerWidget {
   }
 
   Widget _buildRestTimer(BuildContext context, WidgetRef ref) {
+    final progress = exercise.duration > 0 ? (exercise.duration - timerState.remainingSeconds) / exercise.duration : 0.0;
+
     return Card(
       color: Theme.of(context).colorScheme.surfaceVariant,
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Icon(Icons.bedtime, size: 48, color: Theme.of(context).colorScheme.primary),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: CircularProgressIndicator(
+                    value: progress,
+                    strokeWidth: 8,
+                    backgroundColor: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.2),
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Icon(Icons.bedtime, size: 32, color: Colors.orange),
+                    const SizedBox(height: 4),
+                    Text(
+                      _formatTime(timerState.remainingSeconds),
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.orange, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ],
+            ),
             const SizedBox(height: 16),
             Text('Rest Time', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),
             Text(
-              _formatTime(timerState.remainingSeconds),
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+              'Relax and recover. The next exercise will start automatically.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 16),
+            // Only show skip button if you want to cut rest short
+            if (timerState.remainingSeconds > 5)
+              ElevatedButton.icon(
+                onPressed: () {
+                  ref.read(exerciseTimerProvider.notifier).stopTimer();
+                  ref.read(activeTrainingSessionProvider.notifier).nextExercise();
+                },
+                icon: const Icon(Icons.skip_next),
+                label: const Text('Skip Rest'),
+                style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              ),
           ],
         ),
       ),
@@ -311,17 +399,59 @@ class _ExerciseTimerWidget extends ConsumerWidget {
   }
 
   Widget _buildTimedExerciseTimer(BuildContext context, WidgetRef ref) {
+    final progress = exercise.duration > 0 ? (exercise.duration - timerState.remainingSeconds) / exercise.duration : 0.0;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Text('Time Remaining', style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 16),
-            Text(
-              _formatTime(timerState.remainingSeconds),
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: CircularProgressIndicator(
+                    value: progress,
+                    strokeWidth: 12,
+                    backgroundColor: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1),
+                    valueColor: AlwaysStoppedAnimation<Color>(timerState.remainingSeconds <= 10 ? Colors.red : Theme.of(context).colorScheme.primary),
+                  ),
+                ),
+                Column(
+                  children: [
+                    Text(
+                      _formatTime(timerState.remainingSeconds),
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                        color: timerState.remainingSeconds <= 10 ? Colors.red : Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text('remaining', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                  ],
+                ),
+              ],
             ),
+            const SizedBox(height: 24),
+            Text(
+              'Exercise will advance automatically when timer completes',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            // Only show manual completion if timer is almost done or user wants to skip
+            if (timerState.remainingSeconds <= 5 || !timerState.isRunning)
+              ElevatedButton.icon(
+                onPressed: () {
+                  ref.read(exerciseTimerProvider.notifier).stopTimer();
+                  final actualDuration = exercise.duration - timerState.remainingSeconds;
+                  ref.read(activeTrainingSessionProvider.notifier).completeCurrentExercise(actualDuration: actualDuration > 0 ? actualDuration : exercise.duration);
+                },
+                icon: const Icon(Icons.check),
+                label: Text(timerState.remainingSeconds <= 5 ? 'Complete Early' : 'Complete'),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+              ),
           ],
         ),
       ),
@@ -334,14 +464,25 @@ class _ExerciseTimerWidget extends ConsumerWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Text('Target Reps', style: Theme.of(context).textTheme.titleLarge),
+            Icon(Icons.fitness_center, size: 64, color: Theme.of(context).colorScheme.primary),
             const SizedBox(height: 16),
+            Text('Target: ${exercise.targetReps ?? 'Complete'} reps', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
             Text(
-              '${exercise.targetReps}',
-              style: Theme.of(context).textTheme.displayLarge?.copyWith(color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold),
+              'Perform the exercise at your own pace. Tap "Complete" when finished.',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+              textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
-            Text('Complete ${exercise.targetReps} repetitions at your own pace', style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center),
+            const SizedBox(height: 24),
+            ElevatedButton.icon(
+              onPressed: () {
+                // For reps exercises, we'll assume they completed the target reps
+                ref.read(activeTrainingSessionProvider.notifier).completeCurrentExercise(actualReps: exercise.targetReps);
+              },
+              icon: const Icon(Icons.check),
+              label: const Text('Complete Exercise'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
+            ),
           ],
         ),
       ),
@@ -355,51 +496,62 @@ class _ExerciseTimerWidget extends ConsumerWidget {
   }
 }
 
-class _SessionActionButtons extends ConsumerWidget {
+class _SimplifiedActionButtons extends ConsumerWidget {
   final ActiveTrainingSession activeSession;
 
-  const _SessionActionButtons({required this.activeSession});
+  const _SimplifiedActionButtons({required this.activeSession});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timerState = ref.watch(exerciseTimerProvider);
 
-    return Column(
+    return Row(
       children: [
-        if (activeSession.currentExercise.type != ExerciseType.rest) ...[
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(onPressed: () => ref.read(activeTrainingSessionProvider.notifier).skipExercise(), child: const Text('Skip')),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                flex: 2,
-                child: ElevatedButton(onPressed: () => _completeExercise(ref), child: const Text('Complete')),
-              ),
-            ],
-          ),
-        ] else ...[
-          // Rest period - show skip rest button
-          ElevatedButton(onPressed: () => ref.read(activeTrainingSessionProvider.notifier).nextExercise(), child: const Text('Skip Rest')),
-        ],
-        const SizedBox(height: 8),
+        // Pause/Resume button for timed exercises
         if (activeSession.currentExercise.type == ExerciseType.timed || activeSession.currentExercise.type == ExerciseType.rest) ...[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                onPressed: timerState.isRunning ? () => ref.read(exerciseTimerProvider.notifier).pauseTimer() : () => ref.read(exerciseTimerProvider.notifier).resumeTimer(),
-                icon: Icon(timerState.isRunning ? Icons.pause : Icons.play_arrow),
-              ),
-            ],
+          Expanded(
+            child: OutlinedButton.icon(
+              onPressed: timerState.isRunning ? () => ref.read(exerciseTimerProvider.notifier).pauseTimer() : () => ref.read(exerciseTimerProvider.notifier).resumeTimer(),
+              icon: Icon(timerState.isRunning ? Icons.pause : Icons.play_arrow),
+              label: Text(timerState.isRunning ? 'Pause' : 'Resume'),
+            ),
           ),
+          const SizedBox(width: 16),
         ],
+
+        // Skip exercise button (emergency use)
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: () => _showSkipDialog(context, ref),
+            icon: const Icon(Icons.skip_next),
+            label: const Text('Skip'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+              side: BorderSide(color: Theme.of(context).colorScheme.error),
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  void _completeExercise(WidgetRef ref) {
-    ref.read(activeTrainingSessionProvider.notifier).completeCurrentExercise();
+  void _showSkipDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Skip Exercise?'),
+        content: Text('Are you sure you want to skip "${activeSession.currentExercise.name}"?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () {
+              ref.read(activeTrainingSessionProvider.notifier).skipExercise();
+              Navigator.of(context).pop();
+            },
+            child: const Text('Skip'),
+          ),
+        ],
+      ),
+    );
   }
 }

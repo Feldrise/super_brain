@@ -4,6 +4,7 @@ import 'package:super_brain/features/training/domain/entities/training_entities.
 import 'package:super_brain/features/training/presentation/controllers/training_controllers.dart';
 import 'package:super_brain/features/training/presentation/widgets/training_plan_card.dart';
 import 'package:super_brain/features/training/presentation/widgets/training_stats_card.dart';
+import 'package:super_brain/features/training/presentation/pages/training_session_page.dart';
 
 class TrainingHubPage extends ConsumerWidget {
   const TrainingHubPage({super.key});
@@ -149,10 +150,40 @@ class _QuickActionsSection extends ConsumerWidget {
     _startQuickSession(context, ref, 'yoga_morning_15');
   }
 
-  void _startQuickSession(BuildContext context, WidgetRef ref, String planId) {
-    // This would typically fetch the plan and start the session
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Starting $planId session...')));
-    // Navigate to training session page
+  void _startQuickSession(BuildContext context, WidgetRef ref, String planId) async {
+    // Fetch the specific plan and start the session
+    final plansAsync = ref.read(trainingPlansProvider);
+
+    plansAsync.when(
+      data: (plans) {
+        final plan = plans.where((p) => p.id == planId).firstOrNull;
+        if (plan != null) {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => TrainingSessionPage(plan: plan)));
+        } else {
+          // Fall back to the first plan of the requested type
+          late TrainingPlan? fallbackPlan;
+          if (planId.contains('cardio')) {
+            fallbackPlan = plans.where((p) => p.category == TrainingCategory.cardio).firstOrNull;
+          } else if (planId.contains('strength')) {
+            fallbackPlan = plans.where((p) => p.category == TrainingCategory.strength).firstOrNull;
+          } else if (planId.contains('yoga')) {
+            fallbackPlan = plans.where((p) => p.category == TrainingCategory.yoga).firstOrNull;
+          }
+
+          if (fallbackPlan != null) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => TrainingSessionPage(plan: fallbackPlan!)));
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No training plans available')));
+          }
+        }
+      },
+      loading: () {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Loading training plans...')));
+      },
+      error: (error, stack) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error loading plans: $error')));
+      },
+    );
   }
 }
 
@@ -346,7 +377,7 @@ class _RecommendedPlansSection extends ConsumerWidget {
 
   void _startPlan(BuildContext context, WidgetRef ref, TrainingPlan plan) {
     // Navigate to training session with this plan
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Starting ${plan.name}...')));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TrainingSessionPage(plan: plan)));
   }
 }
 

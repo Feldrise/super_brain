@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:super_brain/features/training/domain/entities/training_entities.dart';
 import 'package:super_brain/features/training/domain/usecases/training_usecases.dart';
 import 'package:super_brain/features/training/domain/repositories/training_repository.dart';
@@ -81,6 +83,11 @@ class ActiveTrainingSessionController extends StateNotifier<AsyncValue<ActiveTra
     final updatedSession = currentSession.copyWith(currentExerciseIndex: nextIndex, currentExercise: nextExercise, exerciseStartedAt: DateTime.now());
 
     state = AsyncValue.data(updatedSession);
+
+    // Auto-start timer for next exercise if it's timed
+    if (nextExercise.type == ExerciseType.timed || nextExercise.type == ExerciseType.rest) {
+      _ref.read(exerciseTimerProvider.notifier).startTimer(nextExercise.duration);
+    }
   }
 
   void skipExercise() {
@@ -139,6 +146,15 @@ class ActiveTrainingSessionController extends StateNotifier<AsyncValue<ActiveTra
     if (currentSession == null) return;
 
     try {
+      // Play completion sound
+      try {
+        final audioPlayer = AudioPlayer();
+        await audioPlayer.play(AssetSource('sounds/session_complete.mp3'));
+        audioPlayer.dispose();
+      } catch (e) {
+        print('Could not play session completion sound: $e');
+      }
+
       final completeSessionUseCase = _ref.read(completeTrainingSessionUseCaseProvider);
 
       await completeSessionUseCase(
@@ -171,7 +187,7 @@ class ActiveTrainingSessionController extends StateNotifier<AsyncValue<ActiveTra
 
 // Timer Controller for exercise timing
 final exerciseTimerProvider = StateNotifierProvider<ExerciseTimerController, ExerciseTimerState>((ref) {
-  return ExerciseTimerController();
+  return ExerciseTimerController(ref);
 });
 
 class ExerciseTimerState {
@@ -187,14 +203,27 @@ class ExerciseTimerState {
 }
 
 class ExerciseTimerController extends StateNotifier<ExerciseTimerState> {
-  ExerciseTimerController() : super(const ExerciseTimerState(remainingSeconds: 0, isRunning: false, isCompleted: false));
+  Timer? _timer;
+  final Ref _ref;
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
+  ExerciseTimerController(this._ref) : super(const ExerciseTimerState(remainingSeconds: 0, isRunning: false, isCompleted: false));
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    _audioPlayer.dispose();
+    super.dispose();
+  }
 
   void startTimer(int durationSeconds) {
+    _timer?.cancel();
     state = ExerciseTimerState(remainingSeconds: durationSeconds, isRunning: true, isCompleted: false);
     _runTimer();
   }
 
   void pauseTimer() {
+    _timer?.cancel();
     state = state.copyWith(isRunning: false);
   }
 
@@ -206,24 +235,73 @@ class ExerciseTimerController extends StateNotifier<ExerciseTimerState> {
   }
 
   void stopTimer() {
+    _timer?.cancel();
     state = const ExerciseTimerState(remainingSeconds: 0, isRunning: false, isCompleted: true);
   }
 
+  void _playSound() async {
+    try {
+      // await _audioPlayer.play(AssetSource('sounds/timer_complete.mp3'));
+    } catch (e) {
+      // Fallback to system sound or just continue silently
+      print('Could not play sound: $e');
+    }
+  }
+
   void _runTimer() {
+    _timer?.cancel();
+
     if (!state.isRunning) return;
 
-    Future.delayed(const Duration(seconds: 1), () {
-      if (!mounted) return;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
 
       final newRemaining = state.remainingSeconds - 1;
 
       if (newRemaining <= 0) {
+        timer.cancel();
         state = state.copyWith(remainingSeconds: 0, isRunning: false, isCompleted: true);
+
+        // Play completion sound
+        _playSound();
+
+        // Auto-advance to next exercise after a brief delay
+        Future.delayed(const Duration(milliseconds: 1500), () {
+          if (mounted) {
+            final activeSession = _ref.read(activeTrainingSessionProvider).value;
+            if (activeSession != null) {
+              final currentExercise = activeSession.currentExercise;
+
+              // Auto-complete current exercise based on type
+              if (currentExercise.type == ExerciseType.timed) {
+                _ref.read(activeTrainingSessionProvider.notifier).completeCurrentExercise(actualDuration: currentExercise.duration);
+              } else if (currentExercise.type == ExerciseType.rest) {
+                _ref.read(activeTrainingSessionProvider.notifier).nextExercise();
+              }
+            }
+          }
+        });
       } else {
         state = state.copyWith(remainingSeconds: newRemaining);
-        _runTimer(); // Continue the timer
+
+        // Play countdown beep for last 3 seconds
+        if (newRemaining <= 5 && newRemaining > 0) {
+          _playCountdownBeep();
+        }
       }
     });
+  }
+
+  void _playCountdownBeep() async {
+    try {
+      await _audioPlayer.play(AssetSource('sounds/countdown_beep.mp3'));
+    } catch (e) {
+      // Fallback - could use system beep
+      print('Could not play countdown beep: $e');
+    }
   }
 }
 

@@ -47,7 +47,7 @@ class TrainingPlanCard extends StatelessWidget {
                         const SizedBox(width: 8),
                         _InfoTag(icon: Icons.signal_cellular_alt, text: _getDifficultyLabel(plan.difficulty)),
                         const SizedBox(width: 8),
-                        _InfoTag(icon: Icons.fitness_center, text: '${plan.exercises.length} exercises'),
+                        _InfoTag(icon: Icons.fitness_center, text: '${plan.exercises.length} exercices'),
                       ],
                     ),
                   ],
@@ -88,11 +88,11 @@ class TrainingPlanCard extends StatelessWidget {
   String _getDifficultyLabel(TrainingDifficulty difficulty) {
     switch (difficulty) {
       case TrainingDifficulty.beginner:
-        return 'Beginner';
+        return 'Débutant';
       case TrainingDifficulty.intermediate:
-        return 'Intermediate';
+        return 'Intermédiaire';
       case TrainingDifficulty.advanced:
-        return 'Advanced';
+        return 'Avancé';
     }
   }
 }

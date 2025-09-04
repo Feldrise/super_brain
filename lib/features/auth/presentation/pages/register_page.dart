@@ -44,7 +44,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Account'), backgroundColor: Colors.transparent, elevation: 0),
+      appBar: AppBar(title: const Text('Créer un Compte'), backgroundColor: Colors.transparent, elevation: 0),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -56,7 +56,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 const SizedBox(height: 24),
 
                 Text(
-                  'Join SuperBrain',
+                  'Rejoignez SuperBrain',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary),
                   textAlign: TextAlign.center,
                 ),
@@ -64,7 +64,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 const SizedBox(height: 8),
 
                 Text(
-                  'Start your journey to better memory and cognitive health.',
+                  'Commencez votre parcours vers une meilleure mémoire et santé cognitive.',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                   textAlign: TextAlign.center,
                 ),
@@ -74,14 +74,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 // Name field
                 AuthTextField(
                   controller: _nameController,
-                  labelText: 'Full Name',
+                  labelText: 'Nom complet',
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your full name';
+                      return 'Veuillez saisir votre nom complet';
                     }
                     if (value.trim().length < 2) {
-                      return 'Name must be at least 2 characters';
+                      return 'Le nom doit contenir au moins 2 caractères';
                     }
                     return null;
                   },
@@ -97,10 +97,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return 'Veuillez saisir votre email';
                     }
                     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                      return 'Please enter a valid email';
+                      return 'Veuillez saisir un email valide';
                     }
                     return null;
                   },
@@ -111,7 +111,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 // Password field
                 AuthTextField(
                   controller: _passwordController,
-                  labelText: 'Password',
+                  labelText: 'Mot de passe',
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.next,
                   suffixIcon: IconButton(
@@ -124,10 +124,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
+                      return 'Veuillez saisir un mot de passe';
                     }
                     if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return 'Le mot de passe doit contenir au moins 6 caractères';
                     }
                     return null;
                   },
@@ -138,7 +138,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 // Confirm password field
                 AuthTextField(
                   controller: _confirmPasswordController,
-                  labelText: 'Confirm Password',
+                  labelText: 'Confirmer le mot de passe',
                   obscureText: _obscureConfirmPassword,
                   textInputAction: TextInputAction.done,
                   suffixIcon: IconButton(
@@ -151,10 +151,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please confirm your password';
+                      return 'Veuillez confirmer votre mot de passe';
                     }
                     if (value != _passwordController.text) {
-                      return 'Passwords do not match';
+                      return 'Les mots de passe ne correspondent pas';
                     }
                     return null;
                   },
@@ -179,14 +179,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         text: TextSpan(
                           style: Theme.of(context).textTheme.bodySmall,
                           children: [
-                            const TextSpan(text: 'I agree to the '),
+                            const TextSpan(text: 'J\'accepte les '),
                             TextSpan(
-                              text: 'Terms of Service',
+                              text: 'Conditions d\'utilisation',
                               style: TextStyle(color: Theme.of(context).colorScheme.primary, decoration: TextDecoration.underline),
                             ),
-                            const TextSpan(text: ' and '),
+                            const TextSpan(text: ' et la '),
                             TextSpan(
-                              text: 'Privacy Policy',
+                              text: 'Politique de confidentialité',
                               style: TextStyle(color: Theme.of(context).colorScheme.primary, decoration: TextDecoration.underline),
                             ),
                           ],
@@ -201,7 +201,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 // Register button
                 FilledButton(
                   onPressed: (authState.isLoading || !_agreeToTerms) ? null : _register,
-                  child: authState.isLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Create Account'),
+                  child: authState.isLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Créer un Compte'),
                 ),
 
                 const SizedBox(height: 24),
@@ -212,7 +212,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     const Expanded(child: Divider()),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text('or continue with', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                      child: Text('ou continuer avec', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
                     ),
                     const Expanded(child: Divider()),
                   ],
@@ -243,8 +243,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Already have an account? ', style: Theme.of(context).textTheme.bodyMedium),
-                    TextButton(onPressed: () => context.pop(), child: const Text('Sign In')),
+                    Text('Vous avez déjà un compte ? ', style: Theme.of(context).textTheme.bodyMedium),
+                    TextButton(onPressed: () => context.pop(), child: const Text('Se connecter')),
                   ],
                 ),
               ],
@@ -258,7 +258,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
     if (!_agreeToTerms) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please agree to the Terms of Service and Privacy Policy')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez accepter les Conditions d\'utilisation et la Politique de confidentialité')));
       return;
     }
 

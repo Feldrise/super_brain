@@ -58,7 +58,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 const SizedBox(height: 8),
 
                 Text(
-                  'Welcome back! Sign in to continue your journey.',
+                  'Bon retour ! Connectez-vous pour continuer votre parcours.',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                   textAlign: TextAlign.center,
                 ),
@@ -73,10 +73,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   textInputAction: TextInputAction.next,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your email';
+                      return 'Veuillez saisir votre email';
                     }
                     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                      return 'Please enter a valid email';
+                      return 'Veuillez saisir un email valide';
                     }
                     return null;
                   },
@@ -87,7 +87,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 // Password field
                 AuthTextField(
                   controller: _passwordController,
-                  labelText: 'Password',
+                  labelText: 'Mot de passe',
                   obscureText: _obscurePassword,
                   textInputAction: TextInputAction.done,
                   suffixIcon: IconButton(
@@ -100,7 +100,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
+                      return 'Veuillez saisir votre mot de passe';
                     }
                     return null;
                   },
@@ -112,7 +112,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 // Forgot password
                 Align(
                   alignment: Alignment.centerRight,
-                  child: TextButton(onPressed: () => context.push('/auth/forgot-password'), child: const Text('Forgot Password?')),
+                  child: TextButton(onPressed: () => context.push('/auth/forgot-password'), child: const Text('Mot de passe oublié ?')),
                 ),
 
                 const SizedBox(height: 24),
@@ -120,7 +120,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 // Sign in button
                 FilledButton(
                   onPressed: authState.isLoading ? null : _signIn,
-                  child: authState.isLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Sign In'),
+                  child: authState.isLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Se connecter'),
                 ),
 
                 const SizedBox(height: 24),
@@ -131,7 +131,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     const Expanded(child: Divider()),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text('or continue with', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+                      child: Text('ou continuer avec', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
                     ),
                     const Expanded(child: Divider()),
                   ],
@@ -162,8 +162,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account? ", style: Theme.of(context).textTheme.bodyMedium),
-                    TextButton(onPressed: () => context.push('/auth/register'), child: const Text('Sign Up')),
+                    Text("Vous n'avez pas de compte ? ", style: Theme.of(context).textTheme.bodyMedium),
+                    TextButton(onPressed: () => context.push('/auth/register'), child: const Text('S\'inscrire')),
                   ],
                 ),
               ],

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_brain/core/providers/auth_providers.dart';
 import 'package:super_brain/features/training/domain/entities/training_entities.dart';
 import 'package:super_brain/features/training/presentation/controllers/training_controllers.dart';
 import 'package:super_brain/features/training/presentation/widgets/training_plan_card.dart';
 import 'package:super_brain/features/training/presentation/widgets/training_stats_card.dart';
 import 'package:super_brain/features/training/presentation/pages/training_session_page.dart';
+import 'package:super_brain/features/training/presentation/pages/training_plans_page.dart';
 
 class TrainingHubPage extends ConsumerWidget {
   const TrainingHubPage({super.key});
@@ -12,7 +14,7 @@ class TrainingHubPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Training'), elevation: 0),
+      appBar: AppBar(title: const Text('Entraînement'), elevation: 0),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -47,9 +49,25 @@ class _UserStatsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Assuming we have a current user provider
-    const userId = 'current_user_id'; // This would come from auth
-    final statsAsync = ref.watch(userTrainingStatsProvider(userId));
+    final currentUser = ref.watch(currentUserProvider);
+    
+    if (currentUser == null) {
+      return Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Vos Progrès', style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 16),
+              const Center(child: Text('Veuillez vous connecter pour voir vos progrès')),
+            ],
+          ),
+        ),
+      );
+    }
+
+    final statsAsync = ref.watch(userTrainingStatsProvider(currentUser.uid));
 
     return Card(
       child: Padding(
@@ -57,7 +75,7 @@ class _UserStatsSection extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Your Progress', style: Theme.of(context).textTheme.titleLarge),
+            Text('Vos Progrès', style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             statsAsync.when(
               data: (stats) => stats != null ? TrainingStatsCard(stats: stats) : const _EmptyStatsWidget(),
@@ -80,9 +98,9 @@ class _EmptyStatsWidget extends StatelessWidget {
       children: [
         Icon(Icons.fitness_center, size: 48, color: Theme.of(context).colorScheme.primary.withOpacity(0.5)),
         const SizedBox(height: 8),
-        Text('No training sessions yet', style: Theme.of(context).textTheme.bodyLarge),
+        Text('Aucune session d\'entraînement', style: Theme.of(context).textTheme.bodyLarge),
         Text(
-          'Start your first session to begin tracking progress',
+          'Commencez votre première session pour suivre vos progrès',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
         ),
       ],
@@ -98,24 +116,18 @@ class _QuickActionsSection extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Quick Start', style: Theme.of(context).textTheme.titleLarge),
+        Text('Démarrage Rapide', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
-              child: _QuickActionCard(
-                title: '5-Min Cardio',
-                subtitle: 'Get your heart pumping',
-                icon: Icons.favorite,
-                color: Colors.red,
-                onTap: () => _startQuickCardio(context, ref),
-              ),
+              child: _QuickActionCard(title: 'Cardio 5 min', subtitle: 'Activez votre cœur', icon: Icons.favorite, color: Colors.red, onTap: () => _startQuickCardio(context, ref)),
             ),
             const SizedBox(width: 12),
             Expanded(
               child: _QuickActionCard(
-                title: '10-Min Strength',
-                subtitle: 'Build muscle',
+                title: 'Force 10 min',
+                subtitle: 'Développez vos muscles',
                 icon: Icons.fitness_center,
                 color: Colors.blue,
                 onTap: () => _startQuickStrength(context, ref),
@@ -124,8 +136,8 @@ class _QuickActionsSection extends ConsumerWidget {
             const SizedBox(width: 12),
             Expanded(
               child: _QuickActionCard(
-                title: '15-Min Yoga',
-                subtitle: 'Stretch & relax',
+                title: 'Yoga 15 min',
+                subtitle: 'Étirez & relaxez-vous',
                 icon: Icons.self_improvement,
                 color: Colors.green,
                 onTap: () => _startQuickYoga(context, ref),
@@ -173,15 +185,15 @@ class _QuickActionsSection extends ConsumerWidget {
           if (fallbackPlan != null) {
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => TrainingSessionPage(plan: fallbackPlan!)));
           } else {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No training plans available')));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Aucun plan d\'entraînement disponible')));
           }
         }
       },
       loading: () {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Loading training plans...')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Chargement des plans d\'entraînement...')));
       },
       error: (error, stack) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error loading plans: $error')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Erreur lors du chargement des plans: $error')));
       },
     );
   }
@@ -237,13 +249,8 @@ class _CategoriesSection extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Browse by Category', style: Theme.of(context).textTheme.titleLarge),
-            TextButton(
-              onPressed: () {
-                // Navigate to all plans
-              },
-              child: const Text('See All'),
-            ),
+            Text('Parcourir par Catégorie', style: Theme.of(context).textTheme.titleLarge),
+            TextButton(onPressed: () => _navigateToAllPlans(context), child: const Text('Voir Tout')),
           ],
         ),
         const SizedBox(height: 16),
@@ -254,7 +261,7 @@ class _CategoriesSection extends ConsumerWidget {
               _CategoryCard(
                 category: TrainingCategory.cardio,
                 title: 'Cardio',
-                description: 'Heart-pumping workouts',
+                description: 'Entraînements cardio',
                 icon: Icons.favorite,
                 color: Colors.red,
                 onTap: () => _browsePlans(context, TrainingCategory.cardio),
@@ -262,8 +269,8 @@ class _CategoriesSection extends ConsumerWidget {
               const SizedBox(width: 12),
               _CategoryCard(
                 category: TrainingCategory.strength,
-                title: 'Strength',
-                description: 'Build muscle & power',
+                title: 'Force',
+                description: 'Développez muscle & puissance',
                 icon: Icons.fitness_center,
                 color: Colors.blue,
                 onTap: () => _browsePlans(context, TrainingCategory.strength),
@@ -272,7 +279,7 @@ class _CategoriesSection extends ConsumerWidget {
               _CategoryCard(
                 category: TrainingCategory.yoga,
                 title: 'Yoga',
-                description: 'Flexibility & mindfulness',
+                description: 'Flexibilité & pleine conscience',
                 icon: Icons.self_improvement,
                 color: Colors.green,
                 onTap: () => _browsePlans(context, TrainingCategory.yoga),
@@ -286,7 +293,11 @@ class _CategoriesSection extends ConsumerWidget {
 
   void _browsePlans(BuildContext context, TrainingCategory category) {
     // Navigate to plans list filtered by category
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Browsing ${category.name} plans...')));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TrainingPlansPage(filterCategory: category)));
+  }
+
+  void _navigateToAllPlans(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingPlansPage()));
   }
 }
 
@@ -344,13 +355,8 @@ class _RecommendedPlansSection extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Recommended for You', style: Theme.of(context).textTheme.titleLarge),
-            TextButton(
-              onPressed: () {
-                // Navigate to all plans
-              },
-              child: const Text('See All'),
-            ),
+            Text('Recommandé pour Vous', style: Theme.of(context).textTheme.titleLarge),
+            TextButton(onPressed: () => _navigateToAllPlans(context), child: const Text('Voir Tout')),
           ],
         ),
         const SizedBox(height: 16),
@@ -379,6 +385,10 @@ class _RecommendedPlansSection extends ConsumerWidget {
     // Navigate to training session with this plan
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => TrainingSessionPage(plan: plan)));
   }
+
+  void _navigateToAllPlans(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingPlansPage()));
+  }
 }
 
 class _EmptyPlansWidget extends StatelessWidget {
@@ -392,8 +402,11 @@ class _EmptyPlansWidget extends StatelessWidget {
         children: [
           Icon(Icons.search_off, size: 48, color: Theme.of(context).colorScheme.primary.withOpacity(0.5)),
           const SizedBox(height: 8),
-          Text('No training plans available', style: Theme.of(context).textTheme.bodyLarge),
-          Text('Check back later for new content', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7))),
+          Text('Aucun plan d\'entraînement disponible', style: Theme.of(context).textTheme.bodyLarge),
+          Text(
+            'Revenez plus tard pour du nouveau contenu',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
+          ),
         ],
       ),
     );

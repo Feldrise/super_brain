@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_brain/core/providers/auth_providers.dart';
 import 'package:super_brain/features/training/domain/entities/training_entities.dart';
 import 'package:super_brain/features/training/presentation/controllers/training_controllers.dart';
 
@@ -38,8 +39,8 @@ class TrainingSessionPage extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Error: $error'),
-              ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Go Back')),
+              Text('Erreur: $error'),
+              ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Retour')),
             ],
           ),
         ),
@@ -51,29 +52,29 @@ class TrainingSessionPage extends ConsumerWidget {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Row(
           children: [
             Icon(Icons.celebration, color: Colors.orange, size: 32),
             const SizedBox(width: 8),
-            const Text('Workout Complete!'),
+            const Text('Entraînement Terminé !'),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Great job completing ${plan.name}!', style: Theme.of(context).textTheme.bodyLarge),
+            Text('Excellent travail pour avoir terminé ${plan.name} !', style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 16),
-            Text('You\'ve successfully finished your training session.', style: Theme.of(context).textTheme.bodyMedium),
+            Text('Vous avez terminé votre session d\'entraînement avec succès.', style: Theme.of(context).textTheme.bodyMedium),
           ],
         ),
         actions: [
           ElevatedButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close dialog
+              Navigator.of(dialogContext).pop(); // Close dialog
               Navigator.of(context).pop(); // Go back to training hub
             },
-            child: const Text('Done'),
+            child: const Text('Terminé'),
           ),
         ],
       ),
@@ -84,17 +85,17 @@ class TrainingSessionPage extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Exit Training?'),
-        content: const Text('Your progress will be lost if you exit now.'),
+        title: const Text('Quitter l\'Entraînement ?'),
+        content: const Text('Vos progrès seront perdus si vous quittez maintenant.'),
         actions: [
-          TextButton(onPressed: () => Navigator.of(dialogContext).pop(), child: const Text('Continue')),
+          TextButton(onPressed: () => Navigator.of(dialogContext).pop(), child: const Text('Continuer')),
           TextButton(
             onPressed: () {
               ref.read(activeTrainingSessionProvider.notifier).cancelSession();
               Navigator.of(dialogContext).pop(); // Close dialog
               Navigator.of(context).pop(); // Close session page
             },
-            child: const Text('Exit'),
+            child: const Text('Quitter'),
           ),
         ],
       ),
@@ -138,7 +139,7 @@ class _BuildSessionStartView extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 24),
-          Text('Exercises (${plan.exercises.length})', style: Theme.of(context).textTheme.titleLarge),
+          Text('Exercices (${plan.exercises.length})', style: Theme.of(context).textTheme.titleLarge),
           const SizedBox(height: 16),
           Expanded(
             child: ListView.builder(
@@ -153,7 +154,7 @@ class _BuildSessionStartView extends ConsumerWidget {
           ElevatedButton(
             onPressed: () => _startSession(context, ref),
             style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16)),
-            child: const Text('Start Training', style: TextStyle(fontSize: 18)),
+            child: const Text('Commencer l\'Entraînement', style: TextStyle(fontSize: 18)),
           ),
         ],
       ),
@@ -161,8 +162,16 @@ class _BuildSessionStartView extends ConsumerWidget {
   }
 
   void _startSession(BuildContext context, WidgetRef ref) {
-    const userId = 'current_user_id'; // This would come from auth
-    ref.read(activeTrainingSessionProvider.notifier).startSession(userId, plan);
+    final currentUser = ref.read(currentUserProvider);
+    
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Veuillez vous connecter pour commencer un entraînement')),
+      );
+      return;
+    }
+
+    ref.read(activeTrainingSessionProvider.notifier).startSession(currentUser.uid, plan);
 
     // Start timer for the first exercise if it's timed
     final firstExercise = plan.exercises.first;
@@ -216,7 +225,7 @@ class _ExercisePreviewCard extends StatelessWidget {
 
   Widget _buildExerciseInfo() {
     if (exercise.type == ExerciseType.rest) {
-      return Text('${exercise.duration}s rest');
+      return Text('${exercise.duration}s repos');
     } else if (exercise.type == ExerciseType.timed) {
       return Text('${exercise.duration}s');
     } else {
@@ -513,7 +522,7 @@ class _SimplifiedActionButtons extends ConsumerWidget {
             child: OutlinedButton.icon(
               onPressed: timerState.isRunning ? () => ref.read(exerciseTimerProvider.notifier).pauseTimer() : () => ref.read(exerciseTimerProvider.notifier).resumeTimer(),
               icon: Icon(timerState.isRunning ? Icons.pause : Icons.play_arrow),
-              label: Text(timerState.isRunning ? 'Pause' : 'Resume'),
+              label: Text(timerState.isRunning ? 'Pause' : 'Reprendre'),
             ),
           ),
           const SizedBox(width: 16),
@@ -524,7 +533,7 @@ class _SimplifiedActionButtons extends ConsumerWidget {
           child: OutlinedButton.icon(
             onPressed: () => _showSkipDialog(context, ref),
             icon: const Icon(Icons.skip_next),
-            label: const Text('Skip'),
+            label: const Text('Passer'),
             style: OutlinedButton.styleFrom(
               foregroundColor: Theme.of(context).colorScheme.error,
               side: BorderSide(color: Theme.of(context).colorScheme.error),
@@ -539,16 +548,16 @@ class _SimplifiedActionButtons extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Skip Exercise?'),
-        content: Text('Are you sure you want to skip "${activeSession.currentExercise.name}"?'),
+        title: const Text('Passer l\'Exercice ?'),
+        content: Text('Êtes-vous sûr de vouloir passer "${activeSession.currentExercise.name}" ?'),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Annuler')),
           TextButton(
             onPressed: () {
               ref.read(activeTrainingSessionProvider.notifier).skipExercise();
               Navigator.of(context).pop();
             },
-            child: const Text('Skip'),
+            child: const Text('Passer'),
           ),
         ],
       ),

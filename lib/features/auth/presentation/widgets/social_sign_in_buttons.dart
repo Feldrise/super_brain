@@ -27,7 +27,7 @@ class SocialSignInButtons extends StatelessWidget {
                       return const Icon(Icons.g_mobiledata, size: 20);
                     },
                   ),
-            label: const Text('Continue with Google'),
+            label: const Text('Continuer avec Google'),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -43,7 +43,7 @@ class SocialSignInButtons extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: isLoading ? null : onAppleSignIn,
               icon: isLoading ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.apple, size: 20),
-              label: const Text('Continue with Apple'),
+              label: const Text('Continuer avec Apple'),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

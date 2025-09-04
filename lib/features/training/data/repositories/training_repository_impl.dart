@@ -47,7 +47,7 @@ class TrainingRepositoryImpl implements TrainingRepository {
   @override
   Future<List<TrainingSession>> getUserTrainingSessions(String userId, {int? limit}) async {
     final models = await _firestoreDataSource.getUserTrainingSessions(userId, limit: limit);
-    return models.cast<TrainingSession>();
+    return models.map((model) => model.toDomain()).toList();
   }
 
   @override

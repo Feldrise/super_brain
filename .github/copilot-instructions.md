@@ -4,6 +4,8 @@
 
 **SuperBrain** helps users improve memory and cognitive well-being through a daily **Home** hub (Tip of the Day, Memory training progress), a **Reminder** space for **memory training word lists** and **course summaries** with **spaced repetition**, and a **Morning Routine** (dream journal, daily journal, guided breathing, short training sessions).
 
+It's important to remember the app is French, therefore the content inside the app should be in French too.
+
 **Primary goals (MVP)**
 
 - Frictionless onboarding (Email/Google/Apple).

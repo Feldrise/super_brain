@@ -2,8 +2,8 @@
     "training_plans": [
         {
             "id": "cardio_quick_5",
-            "name": "5-Minute Cardio Burst",
-            "description": "Quick cardio session to get your heart pumping",
+            "name": "Cardio éclair de 5 minutes",
+            "description": "Séance cardio rapide pour faire monter le rythme cardiaque",
             "category": "cardio",
             "difficulty": "beginner",
             "estimatedDuration": 5,
@@ -11,10 +11,10 @@
                 {
                     "id": "jumping_jacks",
                     "name": "Jumping Jacks",
-                    "description": "Classic cardio exercise",
+                    "description": "Exercice cardio classique",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Jump with feet apart while raising arms overhead, then return to starting position",
+                    "instructions": "Sautez en écartant les pieds et en levant les bras au-dessus de la tête, puis revenez à la position de départ",
                     "muscleGroups": [
                         "full-body"
                     ],
@@ -22,8 +22,8 @@
                 },
                 {
                     "id": "rest_15",
-                    "name": "Rest",
-                    "description": "Take a breather",
+                    "name": "Repos",
+                    "description": "Prenez votre souffle",
                     "type": "rest",
                     "duration": 15,
                     "muscleGroups": [],
@@ -31,11 +31,11 @@
                 },
                 {
                     "id": "high_knees",
-                    "name": "High Knees",
-                    "description": "Run in place lifting knees high",
+                    "name": "Montées de genoux",
+                    "description": "Courir sur place en montant les genoux",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Run in place, bringing knees up to waist level",
+                    "instructions": "Courez sur place en amenant les genoux au niveau de la taille",
                     "muscleGroups": [
                         "legs",
                         "core"
@@ -44,8 +44,8 @@
                 },
                 {
                     "id": "rest_15_2",
-                    "name": "Rest",
-                    "description": "Take a breather",
+                    "name": "Repos",
+                    "description": "Prenez votre souffle",
                     "type": "rest",
                     "duration": 15,
                     "muscleGroups": [],
@@ -53,11 +53,11 @@
                 },
                 {
                     "id": "butt_kicks",
-                    "name": "Butt Kicks",
-                    "description": "Run in place kicking heels to glutes",
+                    "name": "Talons-fesses",
+                    "description": "Courir sur place en ramenant les talons vers les fessiers",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Run in place, kicking heels back toward your glutes",
+                    "instructions": "Courez sur place en ramenant les talons vers vos fessiers",
                     "muscleGroups": [
                         "legs"
                     ],
@@ -65,8 +65,8 @@
                 },
                 {
                     "id": "rest_15_3",
-                    "name": "Rest",
-                    "description": "Take a breather",
+                    "name": "Repos",
+                    "description": "Prenez votre souffle",
                     "type": "rest",
                     "duration": 15,
                     "muscleGroups": [],
@@ -75,41 +75,84 @@
                 {
                     "id": "mountain_climbers",
                     "name": "Mountain Climbers",
-                    "description": "Cardio exercise in plank position",
+                    "description": "Exercice cardio en position de planche",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Start in plank position, alternate bringing knees to chest rapidly",
+                    "instructions": "En position de planche, alternez rapidement en ramenant les genoux vers la poitrine",
                     "muscleGroups": [
                         "core",
                         "arms",
                         "legs"
                     ],
                     "equipment": []
+                },
+                {
+                    "id": "rest_15_4",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "skaters",
+                    "name": "Skaters",
+                    "description": "Sauts latéraux en patineur",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Sautez latéralement d’un pied sur l’autre en balançant les bras pour l’équilibre",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_5",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "jump_rope_no_rope",
+                    "name": "Corde à sauter (sans corde)",
+                    "description": "Simulez la corde à sauter",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Sautez sur la pointe des pieds en mimant le mouvement de la corde avec les poignets",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
                 }
             ],
             "tags": [
-                "quick",
-                "no-equipment",
-                "beginner"
+                "rapide",
+                "sans- équipement",
+                "débutant"
             ],
             "isActive": true
         },
         {
             "id": "strength_bodyweight_10",
-            "name": "10-Minute Bodyweight Strength",
-            "description": "Build strength using only your body weight",
+            "name": "Renfo au poids du corps – 10 minutes",
+            "description": "Développez votre force avec le seul poids du corps",
             "category": "strength",
             "difficulty": "intermediate",
             "estimatedDuration": 10,
             "exercises": [
                 {
                     "id": "push_ups",
-                    "name": "Push-ups",
-                    "description": "Classic upper body exercise",
+                    "name": "Pompes",
+                    "description": "Classique du haut du corps",
                     "type": "reps",
                     "duration": 60,
                     "targetReps": 12,
-                    "instructions": "Start in plank position, lower chest to ground, push back up",
+                    "instructions": "En position de planche, descendez la poitrine vers le sol puis repoussez",
                     "muscleGroups": [
                         "chest",
                         "arms",
@@ -119,8 +162,8 @@
                 },
                 {
                     "id": "rest_30",
-                    "name": "Rest",
-                    "description": "Recovery time",
+                    "name": "Repos",
+                    "description": "Temps de récupération",
                     "type": "rest",
                     "duration": 30,
                     "muscleGroups": [],
@@ -129,11 +172,11 @@
                 {
                     "id": "squats",
                     "name": "Squats",
-                    "description": "Lower body strength exercise",
+                    "description": "Renforcement du bas du corps",
                     "type": "reps",
                     "duration": 60,
                     "targetReps": 15,
-                    "instructions": "Stand with feet shoulder-width apart, lower hips back and down, return to standing",
+                    "instructions": "Pieds à largeur d’épaules, reculez les hanches et descendez, puis remontez",
                     "muscleGroups": [
                         "legs",
                         "glutes"
@@ -142,8 +185,8 @@
                 },
                 {
                     "id": "rest_30_2",
-                    "name": "Rest",
-                    "description": "Recovery time",
+                    "name": "Repos",
+                    "description": "Temps de récupération",
                     "type": "rest",
                     "duration": 30,
                     "muscleGroups": [],
@@ -151,11 +194,11 @@
                 },
                 {
                     "id": "plank",
-                    "name": "Plank",
-                    "description": "Core stability exercise",
+                    "name": "Gainage (planche)",
+                    "description": "Stabilité du tronc",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Hold plank position, body straight from head to heels",
+                    "instructions": "Tenez une planche, corps aligné de la tête aux talons",
                     "muscleGroups": [
                         "core"
                     ],
@@ -163,8 +206,8 @@
                 },
                 {
                     "id": "rest_30_3",
-                    "name": "Rest",
-                    "description": "Recovery time",
+                    "name": "Repos",
+                    "description": "Temps de récupération",
                     "type": "rest",
                     "duration": 30,
                     "muscleGroups": [],
@@ -172,41 +215,133 @@
                 },
                 {
                     "id": "lunges",
-                    "name": "Lunges",
-                    "description": "Single leg strength exercise",
+                    "name": "Fentes avant",
+                    "description": "Renforcement unilatéral",
                     "type": "reps",
                     "duration": 60,
                     "targetReps": 10,
-                    "instructions": "Step forward into lunge position, alternate legs",
+                    "instructions": "Faites un pas en avant et fléchissez les deux genoux, alternez les jambes",
                     "muscleGroups": [
                         "legs",
+                        "glutes"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_30_4",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "glute_bridges",
+                    "name": "Hip Thrust au sol (pont fessier)",
+                    "description": "Activation des fessiers et ischios",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 15,
+                    "instructions": "Allongé dos au sol, pieds à plat, poussez les hanches vers le haut puis redescendez",
+                    "muscleGroups": [
+                        "glutes",
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_30_5",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "chair_dips",
+                    "name": "Dips sur chaise",
+                    "description": "Accent sur les triceps",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Mains sur le bord d’une chaise, descendez les hanches puis poussez pour remonter",
+                    "muscleGroups": [
+                        "triceps",
+                        "shoulders"
+                    ],
+                    "equipment": [
+                        "chair"
+                    ]
+                },
+                {
+                    "id": "rest_30_6",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "hollow_hold",
+                    "name": "Hollow Hold",
+                    "description": "Gainage en banane",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Allongé sur le dos, décollez épaules et jambes, maintenez le bas du dos plaqué",
+                    "muscleGroups": [
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_hollow",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "superman",
+                    "name": "Superman",
+                    "description": "Extension du dos",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Allongé sur le ventre, levez simultanément bras et jambes puis relâchez",
+                    "muscleGroups": [
+                        "back",
                         "glutes"
                     ],
                     "equipment": []
                 }
             ],
             "tags": [
-                "bodyweight",
-                "strength",
-                "no-equipment"
+                "poids-du-corps",
+                "force",
+                "sans- équipement"
             ],
             "isActive": true
         },
         {
             "id": "yoga_morning_15",
-            "name": "15-Minute Morning Yoga",
-            "description": "Gentle yoga flow to start your day",
+            "name": "Yoga du matin – 15 minutes",
+            "description": "Enchaînement doux pour bien démarrer la journée",
             "category": "yoga",
             "difficulty": "beginner",
             "estimatedDuration": 15,
             "exercises": [
                 {
                     "id": "child_pose",
-                    "name": "Child's Pose",
-                    "description": "Restful starting position",
+                    "name": "Posture de l’Enfant",
+                    "description": "Position de repos initiale",
                     "type": "timed",
                     "duration": 60,
-                    "instructions": "Kneel and sit back on heels, stretch arms forward",
+                    "instructions": "À genoux, asseyez-vous sur les talons et étirez les bras vers l’avant",
                     "muscleGroups": [
                         "back"
                     ],
@@ -214,11 +349,11 @@
                 },
                 {
                     "id": "cat_cow",
-                    "name": "Cat-Cow Stretch",
-                    "description": "Spine mobility exercise",
+                    "name": "Chat–Vache",
+                    "description": "Mobilité de la colonne",
                     "type": "timed",
                     "duration": 90,
-                    "instructions": "On hands and knees, alternate arching and rounding your back",
+                    "instructions": "À quatre pattes, alternez dos rond et dos creux",
                     "muscleGroups": [
                         "back",
                         "core"
@@ -227,11 +362,11 @@
                 },
                 {
                     "id": "downward_dog",
-                    "name": "Downward Facing Dog",
-                    "description": "Classic yoga pose",
+                    "name": "Chien tête en bas",
+                    "description": "Posture classique de yoga",
                     "type": "timed",
                     "duration": 60,
-                    "instructions": "Form inverted V shape with hands and feet on ground",
+                    "instructions": "Formez un V inversé, mains et pieds au sol",
                     "muscleGroups": [
                         "arms",
                         "legs",
@@ -241,11 +376,11 @@
                 },
                 {
                     "id": "warrior_1",
-                    "name": "Warrior I",
-                    "description": "Standing strength pose",
+                    "name": "Guerrier I",
+                    "description": "Posture debout de force",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Lunge position with arms raised overhead",
+                    "instructions": "Fente avant avec les bras tendus au-dessus de la tête",
                     "muscleGroups": [
                         "legs",
                         "core"
@@ -254,11 +389,11 @@
                 },
                 {
                     "id": "warrior_1_other",
-                    "name": "Warrior I (Other Side)",
-                    "description": "Standing strength pose, opposite leg",
+                    "name": "Guerrier I (autre côté)",
+                    "description": "Posture debout de force, jambe opposée",
                     "type": "timed",
                     "duration": 45,
-                    "instructions": "Lunge position with arms raised overhead, opposite leg forward",
+                    "instructions": "Fente avant avec les bras au-dessus de la tête, autre jambe devant",
                     "muscleGroups": [
                         "legs",
                         "core"
@@ -267,11 +402,11 @@
                 },
                 {
                     "id": "seated_twist",
-                    "name": "Seated Spinal Twist",
-                    "description": "Gentle spine rotation",
+                    "name": "Torsion assise",
+                    "description": "Rotation douce de la colonne",
                     "type": "timed",
                     "duration": 60,
-                    "instructions": "Sit cross-legged, twist torso left and right",
+                    "instructions": "Assis en tailleur, tournez doucement le buste à gauche puis à droite",
                     "muscleGroups": [
                         "back",
                         "core"
@@ -279,28 +414,79 @@
                     "equipment": []
                 },
                 {
+                    "id": "sun_salutation_a",
+                    "name": "Salutation au Soleil A",
+                    "description": "Flow de réveil en douceur",
+                    "type": "timed",
+                    "duration": 180,
+                    "instructions": "Enchaînez flexion avant, planche, chien tête en haut puis chien tête en bas, revenez debout",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "low_lunge_left",
+                    "name": "Fente basse (gauche)",
+                    "description": "Ouverture des hanches",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Depuis le chien tête en bas, amenez le pied gauche devant et baissez le genou arrière",
+                    "muscleGroups": [
+                        "legs",
+                        "hips"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "low_lunge_right",
+                    "name": "Fente basse (droite)",
+                    "description": "Ouverture des hanches",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Répétez de l’autre côté en gardant la poitrine ouverte",
+                    "muscleGroups": [
+                        "legs",
+                        "hips"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "bridge_pose",
+                    "name": "Posture du Pont",
+                    "description": "Ouverture de la poitrine et renfort du dos",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Allongé sur le dos, poussez le bassin vers le ciel en gardant les épaules au sol",
+                    "muscleGroups": [
+                        "back",
+                        "glutes"
+                    ],
+                    "equipment": []
+                },
+                {
                     "id": "savasana",
                     "name": "Savasana",
-                    "description": "Final relaxation",
+                    "description": "Relaxation finale",
                     "type": "timed",
                     "duration": 120,
-                    "instructions": "Lie flat on back, relax completely",
+                    "instructions": "Allongez-vous sur le dos et relâchez complètement",
                     "muscleGroups": [],
                     "equipment": []
                 }
             ],
             "tags": [
                 "yoga",
-                "flexibility",
-                "morning",
+                "souplesse",
+                "matin",
                 "relaxation"
             ],
             "isActive": true
         },
         {
             "id": "cardio_hiit_10",
-            "name": "10-Minute HIIT Cardio",
-            "description": "High-intensity interval training for maximum burn",
+            "name": "HIIT Cardio – 10 minutes",
+            "description": "Intervalles à haute intensité pour brûler un maximum",
             "category": "cardio",
             "difficulty": "intermediate",
             "estimatedDuration": 10,
@@ -308,10 +494,10 @@
                 {
                     "id": "burpees",
                     "name": "Burpees",
-                    "description": "Full body explosive movement",
+                    "description": "Mouvement explosif complet",
                     "type": "timed",
                     "duration": 30,
-                    "instructions": "Squat down, jump back to plank, push-up, jump forward, jump up",
+                    "instructions": "Accroupissez-vous, sautez en planche, faites une pompe, revenez et sautez vers le haut",
                     "muscleGroups": [
                         "full-body"
                     ],
@@ -319,8 +505,8 @@
                 },
                 {
                     "id": "rest_20",
-                    "name": "Rest",
-                    "description": "Recovery time",
+                    "name": "Repos",
+                    "description": "Récupération",
                     "type": "rest",
                     "duration": 20,
                     "muscleGroups": [],
@@ -328,11 +514,11 @@
                 },
                 {
                     "id": "jump_squats",
-                    "name": "Jump Squats",
-                    "description": "Explosive squat variation",
+                    "name": "Squats sautés",
+                    "description": "Variation explosive du squat",
                     "type": "timed",
                     "duration": 30,
-                    "instructions": "Perform squat then jump explosively upward",
+                    "instructions": "Effectuez un squat puis sautez de façon explosive",
                     "muscleGroups": [
                         "legs",
                         "glutes"
@@ -341,37 +527,94 @@
                 },
                 {
                     "id": "rest_20_2",
-                    "name": "Rest",
-                    "description": "Recovery time",
+                    "name": "Repos",
+                    "description": "Récupération",
                     "type": "rest",
                     "duration": 20,
                     "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "plank_jacks",
+                    "name": "Plank Jacks",
+                    "description": "Sauts de jambes en planche",
+                    "type": "timed",
+                    "duration": 30,
+                    "instructions": "En planche, écartez et rapprochez les pieds en sautant, abdos gainés",
+                    "muscleGroups": [
+                        "core",
+                        "shoulders",
+                        "legs"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_3",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "tuck_jumps",
+                    "name": "Tuck Jumps",
+                    "description": "Sauts groupés",
+                    "type": "timed",
+                    "duration": 30,
+                    "instructions": "Sautez en ramenant les genoux vers la poitrine, atterrissez souplement",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_4",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "speed_skipping",
+                    "name": "Corde rapide (sans corde)",
+                    "description": "Fréquence élevée",
+                    "type": "timed",
+                    "duration": 30,
+                    "instructions": "Petits rebonds rapides en mimant la corde, cadence soutenue",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
                     "equipment": []
                 }
             ],
             "tags": [
                 "hiit",
                 "intense",
-                "fat-burn"
+                "brûle-graisse"
             ],
             "isActive": true
         },
         {
             "id": "strength_upper_15",
-            "name": "15-Minute Upper Body Strength",
-            "description": "Target your arms, chest, and back",
+            "name": "Force haut du corps – 15 minutes",
+            "description": "Ciblez bras, poitrine et dos",
             "category": "strength",
             "difficulty": "advanced",
             "estimatedDuration": 15,
             "exercises": [
                 {
                     "id": "diamond_pushups",
-                    "name": "Diamond Push-ups",
-                    "description": "Tricep-focused push-up variation",
+                    "name": "Pompes diamant",
+                    "description": "Variation axée triceps",
                     "type": "reps",
                     "duration": 60,
                     "targetReps": 8,
-                    "instructions": "Form diamond shape with hands, perform push-ups",
+                    "instructions": "Formez un losange avec les mains et effectuez des pompes",
                     "muscleGroups": [
                         "triceps",
                         "chest"
@@ -380,61 +623,1158 @@
                 },
                 {
                     "id": "pike_pushups",
-                    "name": "Pike Push-ups",
-                    "description": "Shoulder-focused exercise",
+                    "name": "Pompes pike",
+                    "description": "Accent sur les épaules",
                     "type": "reps",
                     "duration": 60,
                     "targetReps": 10,
-                    "instructions": "Start in downward dog position, perform push-ups",
+                    "instructions": "Depuis le chien tête en bas, fléchissez les coudes pour descendre puis remontez",
                     "muscleGroups": [
                         "shoulders",
                         "arms"
                     ],
                     "equipment": []
+                },
+                {
+                    "id": "rest_30_up_1",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "wide_pushups",
+                    "name": "Pompes larges",
+                    "description": "Variation poitrine/épaules",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Mains plus larges que les épaules, descendez la poitrine puis repoussez",
+                    "muscleGroups": [
+                        "chest",
+                        "shoulders",
+                        "triceps"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_30_up_2",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 30,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "inverted_rows_table",
+                    "name": "Tractions inversées (table)",
+                    "description": "Tirage au poids du corps",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Sous une table solide, tirez la poitrine vers le bord puis redescendez",
+                    "muscleGroups": [
+                        "back",
+                        "biceps"
+                    ],
+                    "equipment": [
+                        "table"
+                    ]
+                },
+                {
+                    "id": "rest_20_up_3",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "plank_shoulder_taps",
+                    "name": "Taps d’épaules en planche",
+                    "description": "Stabilité du tronc et des épaules",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "En planche, touchez alternativement chaque épaule avec la main opposée sans balancer le bassin",
+                    "muscleGroups": [
+                        "core",
+                        "shoulders"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_up_4",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "hand_release_pushups",
+                    "name": "Pompes avec relâché des mains",
+                    "description": "Amplitude complète et contrôle",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 8,
+                    "instructions": "Allongez la poitrine au sol, relâchez brièvement les mains puis poussez pour remonter",
+                    "muscleGroups": [
+                        "chest",
+                        "triceps",
+                        "core"
+                    ],
+                    "equipment": []
                 }
             ],
             "tags": [
-                "upper-body",
-                "advanced",
-                "strength"
+                "haut-du-corps",
+                "avancé",
+                "force"
             ],
             "isActive": true
         },
         {
             "id": "yoga_evening_20",
-            "name": "20-Minute Evening Wind Down",
-            "description": "Relaxing yoga session to end your day",
+            "name": "Détente du soir – 20 minutes",
+            "description": "Séance de yoga relaxante pour finir la journée",
             "category": "yoga",
             "difficulty": "beginner",
             "estimatedDuration": 20,
             "exercises": [
                 {
                     "id": "gentle_flow",
-                    "name": "Gentle Flow",
-                    "description": "Slow, controlled movements",
+                    "name": "Flow doux",
+                    "description": "Mouvements lents et contrôlés",
                     "type": "timed",
                     "duration": 300,
-                    "instructions": "Move slowly through basic yoga poses",
+                    "instructions": "Enchaînez lentement des postures de base en synchronisant souffle et mouvement",
                     "muscleGroups": [
                         "full-body"
                     ],
                     "equipment": []
                 },
                 {
+                    "id": "forward_fold",
+                    "name": "Flexion avant",
+                    "description": "Étirement de l’arrière des jambes et du dos",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Depuis la station debout, basculez le buste vers l’avant en relâchant la nuque",
+                    "muscleGroups": [
+                        "legs",
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "supine_twist_left",
+                    "name": "Torsion allongée (gauche)",
+                    "description": "Détente de la colonne",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Allongé sur le dos, amenez le genou droit au-dessus de la jambe gauche vers le sol, regard opposé",
+                    "muscleGroups": [
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "supine_twist_right",
+                    "name": "Torsion allongée (droite)",
+                    "description": "Détente de la colonne",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Répétez de l’autre côté en respirant profondément",
+                    "muscleGroups": [
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "legs_up_wall",
+                    "name": "Jambes au mur",
+                    "description": "Récupération et retour veineux",
+                    "type": "timed",
+                    "duration": 120,
+                    "instructions": "Allongez-vous près d’un mur et placez les jambes à la verticale contre celui-ci",
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
                     "id": "meditation",
-                    "name": "Meditation",
-                    "description": "Mindful breathing",
+                    "name": "Méditation",
+                    "description": "Respiration consciente",
                     "type": "timed",
                     "duration": 900,
-                    "instructions": "Sit comfortably and focus on your breath",
+                    "instructions": "Asseyez-vous confortablement et concentrez-vous sur votre respiration",
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "box_breathing",
+                    "name": "Respiration carrée",
+                    "description": "Apaisement du système nerveux",
+                    "type": "timed",
+                    "duration": 120,
+                    "instructions": "Inspirez 4 temps, retenez 4, expirez 4, retenez 4, et répétez",
                     "muscleGroups": [],
                     "equipment": []
                 }
             ],
             "tags": [
-                "evening",
+                "soir",
                 "relaxation",
-                "meditation"
+                "méditation"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "cardio_tabata_8",
+            "name": "Tabata Cardio – 8 minutes",
+            "description": "Intervalles 20/10 pour un cardio intense sans matériel",
+            "category": "cardio",
+            "difficulty": "intermediate",
+            "estimatedDuration": 8,
+            "exercises": [
+                {
+                    "id": "fast_feet",
+                    "name": "Pieds rapides",
+                    "description": "Petits pas rapides sur place",
+                    "type": "timed",
+                    "duration": 20,
+                    "instructions": "Fléchissez légèrement les genoux et alternez des appuis rapides sur l’avant des pieds",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_10_tabata_1",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 10,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "half_burpees",
+                    "name": "Demi-burpees",
+                    "description": "Burpee sans saut ni pompe",
+                    "type": "timed",
+                    "duration": 20,
+                    "instructions": "Accroupissez-vous, lancez les pieds en arrière en planche, revenez pieds près des mains, redressez-vous",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_10_tabata_2",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 10,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "jumping_lunges",
+                    "name": "Fentes sautées",
+                    "description": "Alternance explosive des jambes",
+                    "type": "timed",
+                    "duration": 20,
+                    "instructions": "Alternez les fentes avec un petit saut, atterrissez en douceur",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_10_tabata_3",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 10,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "mountain_climbers_cross",
+                    "name": "Mountain climbers croisés",
+                    "description": "Genou vers coude opposé",
+                    "type": "timed",
+                    "duration": 20,
+                    "instructions": "En planche, amenez rapidement le genou droit vers le coude gauche puis inversez",
+                    "muscleGroups": [
+                        "core",
+                        "arms",
+                        "legs"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_10_tabata_4",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 10,
+                    "muscleGroups": [],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "hiit",
+                "rapide",
+                "sans- équipement"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "cardio_low_impact_7",
+            "name": "Cardio doux sans impact – 7 minutes",
+            "description": "Séance cardio sans sauts pour ménager les articulations",
+            "category": "cardio",
+            "difficulty": "beginner",
+            "estimatedDuration": 7,
+            "exercises": [
+                {
+                    "id": "march_in_place",
+                    "name": "Marche sur place",
+                    "description": "Échauffement simple",
+                    "type": "timed",
+                    "duration": 40,
+                    "instructions": "Levez les genoux et balancez les bras naturellement",
+                    "muscleGroups": [
+                        "legs"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_li_1",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "side_steps_reach",
+                    "name": "Pas latéraux avec allonge",
+                    "description": "Pas côté à côté et bras qui s’étirent",
+                    "type": "timed",
+                    "duration": 40,
+                    "instructions": "Faites un pas latéral et levez le bras opposé au-dessus de la tête, alternez",
+                    "muscleGroups": [
+                        "legs",
+                        "shoulders",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_li_2",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "knee_drives",
+                    "name": "Montées de genou dynamiques",
+                    "description": "Genou vers les mains",
+                    "type": "timed",
+                    "duration": 40,
+                    "instructions": "Levez un genou vers les mains placées à hauteur de taille, alternez rapidement sans sauter",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_li_3",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "boxer_shuffle_low",
+                    "name": "Pas de boxeur (soft)",
+                    "description": "Déplacements légers d’un pied à l’autre",
+                    "type": "timed",
+                    "duration": 40,
+                    "instructions": "Transférez le poids d’un pied à l’autre en gardant les talons au sol",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "faible-impact",
+                "débutant",
+                "sans- équipement"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "strength_core_12",
+            "name": "Gainage & Core – 12 minutes",
+            "description": "Renforcement du tronc pour la posture et la stabilité",
+            "category": "strength",
+            "difficulty": "intermediate",
+            "estimatedDuration": 12,
+            "exercises": [
+                {
+                    "id": "dead_bug",
+                    "name": "Dead bug",
+                    "description": "Coordination bras/jambes",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Allongé sur le dos, étendez bras et jambe opposés sans creuser le bas du dos",
+                    "muscleGroups": [
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_core_1",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "side_plank_left",
+                    "name": "Planche latérale (gauche)",
+                    "description": "Stabilité obliques",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Coudes sous l’épaule, corps aligné, maintenez sans affaisser les hanches",
+                    "muscleGroups": [
+                        "core",
+                        "shoulders"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_core_2",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "side_plank_right",
+                    "name": "Planche latérale (droite)",
+                    "description": "Stabilité obliques",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Même posture de l’autre côté, respiration fluide",
+                    "muscleGroups": [
+                        "core",
+                        "shoulders"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_core_3",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "bicycle_crunches",
+                    "name": "Crunchs vélo",
+                    "description": "Rotation du buste contrôlée",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Coude vers genou opposé en alternance, bas du dos collé au sol",
+                    "muscleGroups": [
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_core_4",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "reverse_crunch",
+                    "name": "Reverse crunch",
+                    "description": "Relevé de bassin",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Ramenez les genoux vers la poitrine et décollez légèrement le bassin",
+                    "muscleGroups": [
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_core_5",
+                    "name": "Repos",
+                    "description": "Récupération courte",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "bird_dog",
+                    "name": "Bird dog",
+                    "description": "Stabilité dos et hanches",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "À quatre pattes, étendez bras et jambe opposés, alternez sans cambrer",
+                    "muscleGroups": [
+                        "back",
+                        "core"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "core",
+                "poids-du-corps",
+                "sans- équipement"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "strength_lower_15",
+            "name": "Bas du corps – 15 minutes",
+            "description": "Travail des cuisses et fessiers au poids du corps",
+            "category": "strength",
+            "difficulty": "intermediate",
+            "estimatedDuration": 15,
+            "exercises": [
+                {
+                    "id": "bulgarian_split_squat_left",
+                    "name": "Fente bulgare (gauche)",
+                    "description": "Jambe arrière surélevée",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Posez le pied arrière sur une chaise et fléchissez la jambe avant",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": [
+                        "chair"
+                    ]
+                },
+                {
+                    "id": "rest_25_lower_1",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 25,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "bulgarian_split_squat_right",
+                    "name": "Fente bulgare (droite)",
+                    "description": "Jambe arrière surélevée",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Changez de jambe en gardant le buste droit",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": [
+                        "chair"
+                    ]
+                },
+                {
+                    "id": "rest_25_lower_2",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 25,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "wall_sit",
+                    "name": "Chaise au mur",
+                    "description": "Isométrie cuisses",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Dos contre le mur, genoux à 90°, tenez la position",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": [
+                        "wall"
+                    ]
+                },
+                {
+                    "id": "rest_20_lower_3",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "glute_kickback_left",
+                    "name": "Kickback fessier (gauche)",
+                    "description": "Extension de hanche contrôlée",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "À quatre pattes, poussez le talon gauche vers l’arrière et vers le haut",
+                    "muscleGroups": [
+                        "glutes",
+                        "legs"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_lower_4",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "glute_kickback_right",
+                    "name": "Kickback fessier (droit)",
+                    "description": "Extension de hanche contrôlée",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Même mouvement avec la jambe droite, bassin stable",
+                    "muscleGroups": [
+                        "glutes",
+                        "legs"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_lower_5",
+                    "name": "Repos",
+                    "description": "Transition",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "good_mornings_bw",
+                    "name": "Good mornings (poids du corps)",
+                    "description": "Charnière de hanches",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Mains sur la poitrine, penchez le buste en avant dos droit puis redressez-vous",
+                    "muscleGroups": [
+                        "back",
+                        "glutes",
+                        "legs"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "jambes",
+                "fessiers",
+                "poids-du-corps"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "yoga_desk_10",
+            "name": "Yoga au bureau – 10 minutes",
+            "description": "Étirements simples à faire près d’un bureau",
+            "category": "yoga",
+            "difficulty": "beginner",
+            "estimatedDuration": 10,
+            "exercises": [
+                {
+                    "id": "neck_rolls",
+                    "name": "Roulis de nuque",
+                    "description": "Libère les tensions cervicales",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Roulez doucement la tête de chaque côté sans forcer",
+                    "muscleGroups": [
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "shoulder_circles",
+                    "name": "Cercles d’épaules",
+                    "description": "Mobilité des épaules",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Faites des cercles lents vers l’avant puis vers l’arrière",
+                    "muscleGroups": [
+                        "shoulders"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "seated_cat_cow",
+                    "name": "Chat–Vache assis",
+                    "description": "Mobilité de la colonne",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Assis, alternez dos rond et dos creux en synchronisant la respiration",
+                    "muscleGroups": [
+                        "back",
+                        "core"
+                    ],
+                    "equipment": [
+                        "chair"
+                    ]
+                },
+                {
+                    "id": "seated_forward_fold",
+                    "name": "Flexion avant assise",
+                    "description": "Étirement dorsal",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Assis, penchez le buste vers les cuisses et relâchez les épaules",
+                    "muscleGroups": [
+                        "back",
+                        "legs"
+                    ],
+                    "equipment": [
+                        "chair"
+                    ]
+                },
+                {
+                    "id": "standing_quad_left",
+                    "name": "Étirement quadriceps (gauche)",
+                    "description": "Tiraillement contrôlé",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Debout, attrapez le pied gauche et amenez le talon vers la fesse",
+                    "muscleGroups": [
+                        "legs",
+                        "hips"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "standing_quad_right",
+                    "name": "Étirement quadriceps (droit)",
+                    "description": "Tiraillement contrôlé",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Même chose de l’autre côté, bassin neutre",
+                    "muscleGroups": [
+                        "legs",
+                        "hips"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "wrist_stretch",
+                    "name": "Étirement des poignets",
+                    "description": "Pour les mains et avant-bras",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Étendez le bras, paume vers vous, tirez doucement sur les doigts puis inversez",
+                    "muscleGroups": [
+                        "arms"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "bureau",
+                "souplesse",
+                "relaxation"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "yoga_balance_12",
+            "name": "Équilibre & concentration – 12 minutes",
+            "description": "Postures d’équilibre pour renforcer stabilité et focus",
+            "category": "yoga",
+            "difficulty": "intermediate",
+            "estimatedDuration": 12,
+            "exercises": [
+                {
+                    "id": "tree_pose_left",
+                    "name": "Posture de l’arbre (gauche)",
+                    "description": "Équilibre sur une jambe",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Placez la plante du pied gauche sur la jambe droite, mains en prière",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "tree_pose_right",
+                    "name": "Posture de l’arbre (droite)",
+                    "description": "Équilibre sur une jambe",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Même posture de l’autre côté, regard fixe",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "warrior_3_left",
+                    "name": "Guerrier III (gauche)",
+                    "description": "Inclinaison en T",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Buste penché en avant, jambe gauche tendue derrière, hanches alignées",
+                    "muscleGroups": [
+                        "legs",
+                        "back",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "warrior_3_right",
+                    "name": "Guerrier III (droite)",
+                    "description": "Inclinaison en T",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Changez de côté en gardant la nuque longue",
+                    "muscleGroups": [
+                        "legs",
+                        "back",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "eagle_pose_left",
+                    "name": "Posture de l’aigle (gauche)",
+                    "description": "Enroulement bras/jambes",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Croisez la jambe gauche par-dessus la droite et enroulez les bras",
+                    "muscleGroups": [
+                        "legs",
+                        "shoulders",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "eagle_pose_right",
+                    "name": "Posture de l’aigle (droite)",
+                    "description": "Enroulement bras/jambes",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Inversez les croisements, respiration fluide",
+                    "muscleGroups": [
+                        "legs",
+                        "shoulders",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "short_savasana",
+                    "name": "Savasana court",
+                    "description": "Relaxation finale",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Allongez-vous et relâchez toutes les tensions",
+                    "muscleGroups": [],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "équilibre",
+                "focus",
+                "souplesse"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "strength_fullbody_20",
+            "name": "Full body express – 20 minutes",
+            "description": "Circuit complet au poids du corps, sans matériel",
+            "category": "strength",
+            "difficulty": "intermediate",
+            "estimatedDuration": 20,
+            "exercises": [
+                {
+                    "id": "inchworms",
+                    "name": "Inchworms (marche du ver)",
+                    "description": "Mobilité + gainage",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Depuis debout, marchez avec les mains jusqu’en planche puis revenez",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_fb_1",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "close_pushups",
+                    "name": "Pompes serrées",
+                    "description": "Accent triceps",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 10,
+                    "instructions": "Mains proches sous la poitrine, coudes près du corps",
+                    "muscleGroups": [
+                        "triceps",
+                        "chest",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_fb_2",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "single_leg_hip_bridge_left",
+                    "name": "Pont fessier une jambe (gauche)",
+                    "description": "Activation fessiers",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Une jambe tendue, poussez le bassin haut avec la jambe d’appui",
+                    "muscleGroups": [
+                        "glutes",
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_fb_3",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "single_leg_hip_bridge_right",
+                    "name": "Pont fessier une jambe (droite)",
+                    "description": "Activation fessiers",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Changez de jambe, bassin stable",
+                    "muscleGroups": [
+                        "glutes",
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_fb_4",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "walkout_to_plank",
+                    "name": "Déroulé vers planche",
+                    "description": "Haut du corps & tronc",
+                    "type": "timed",
+                    "duration": 45,
+                    "instructions": "Enchaînez déroulé de la colonne et marche des mains jusqu’en planche, puis retour",
+                    "muscleGroups": [
+                        "shoulders",
+                        "core",
+                        "back"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_15_fb_5",
+                    "name": "Repos",
+                    "description": "Récupération brève",
+                    "type": "rest",
+                    "duration": 15,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "alternating_reverse_lunge",
+                    "name": "Fentes arrière alternées",
+                    "description": "Stabilité et contrôle",
+                    "type": "reps",
+                    "duration": 60,
+                    "targetReps": 12,
+                    "instructions": "Faites un pas en arrière en gardant le buste droit, alternez",
+                    "muscleGroups": [
+                        "legs",
+                        "glutes"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "full-body",
+                "poids-du-corps",
+                "sans- équipement"
+            ],
+            "isActive": true
+        },
+        {
+            "id": "cardio_box_12",
+            "name": "Shadow boxing – 12 minutes",
+            "description": "Cardio inspiré de la boxe sans contact",
+            "category": "cardio",
+            "difficulty": "intermediate",
+            "estimatedDuration": 12,
+            "exercises": [
+                {
+                    "id": "jab_cross",
+                    "name": "Jab–cross",
+                    "description": "Direct du bras avant puis arrière",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Garde haute, enchaînez jab et cross en pivotant légèrement les hanches",
+                    "muscleGroups": [
+                        "arms",
+                        "shoulders",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_box_1",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "hook_uppercut",
+                    "name": "Crochet–uppercut",
+                    "description": "Travail en puissance",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Crochet latéral puis uppercut en gainant le tronc",
+                    "muscleGroups": [
+                        "arms",
+                        "shoulders",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_box_2",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "boxer_shuffle",
+                    "name": "Pas de boxeur",
+                    "description": "Déplacements légers",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Petits rebonds et changements d’appuis tout en gardant la garde",
+                    "muscleGroups": [
+                        "legs",
+                        "core"
+                    ],
+                    "equipment": []
+                },
+                {
+                    "id": "rest_20_box_3",
+                    "name": "Repos",
+                    "description": "Récupération",
+                    "type": "rest",
+                    "duration": 20,
+                    "muscleGroups": [],
+                    "equipment": []
+                },
+                {
+                    "id": "punches_high_knees",
+                    "name": "Coups de poing + montées de genoux",
+                    "description": "Coordination cardio",
+                    "type": "timed",
+                    "duration": 60,
+                    "instructions": "Alternez coups de poing devant avec montées de genoux rythmées",
+                    "muscleGroups": [
+                        "full-body"
+                    ],
+                    "equipment": []
+                }
+            ],
+            "tags": [
+                "boxe",
+                "cardio",
+                "sans- équipement"
             ],
             "isActive": true
         }

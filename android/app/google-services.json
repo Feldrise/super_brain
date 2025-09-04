@@ -7,31 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:467274672074:android:abf934d50a70a7e530d133",
-        "android_client_info": {
-          "package_name": "com.example.super_brain"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDKCuEr4iDK352wJb0dy53hd3bouRJpxoM"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:467274672074:android:6099e80815b614d330d133",
         "android_client_info": {
           "package_name": "com.feldrise.super_brain"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "467274672074-0uvvf1da3flau4l52e0jcg462n43na57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDKCuEr4iDK352wJb0dy53hd3bouRJpxoM"
@@ -39,7 +25,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467274672074-0uvvf1da3flau4l52e0jcg462n43na57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "467274672074-igjdh0vgpnc3nkakrpvfrtp060k8hu0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.feldrise.superBrain"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467274672074:android:2b4708270dbc490e30d133",
+        "android_client_info": {
+          "package_name": "com.feldrise.super_brain2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "467274672074-0uvvf1da3flau4l52e0jcg462n43na57.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKCuEr4iDK352wJb0dy53hd3bouRJpxoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "467274672074-0uvvf1da3flau4l52e0jcg462n43na57.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "467274672074-igjdh0vgpnc3nkakrpvfrtp060k8hu0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.feldrise.superBrain"
+              }
+            }
+          ]
         }
       }
     }

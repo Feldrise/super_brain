@@ -22,14 +22,26 @@ class TrainingFirestoreDataSourceImpl implements TrainingFirestoreDataSource {
       .collection('users')
       .doc(userId)
       .collection('training_sessions')
-      .withConverter<TrainingSessionModel>(fromFirestore: (snapshot, _) => TrainingSessionModel.fromFirestore(snapshot), toFirestore: (session, _) => session.toFirestore());
+      .withConverter<TrainingSessionModel>(
+        fromFirestore: (snapshot, _) {
+          final data = snapshot.data() ?? <String, dynamic>{};
+          return TrainingSessionModel.fromJson({'id': snapshot.id, 'userId': userId, ...data});
+        },
+        toFirestore: (session, _) => session.toFirestore(),
+      );
 
   DocumentReference<TrainingStatsModel> _statsDocument(String userId) => _firestore
       .collection('users')
       .doc(userId)
       .collection('training_stats')
       .doc('stats')
-      .withConverter<TrainingStatsModel>(fromFirestore: (snapshot, _) => TrainingStatsModel.fromFirestore(snapshot), toFirestore: (stats, _) => stats.toFirestore());
+      .withConverter<TrainingStatsModel>(
+        fromFirestore: (snapshot, _) {
+          final data = snapshot.data() ?? <String, dynamic>{};
+          return TrainingStatsModel.fromJson({'userId': userId, ...data});
+        },
+        toFirestore: (stats, _) => stats.toFirestore(),
+      );
 
   @override
   Future<void> saveTrainingSession(TrainingSessionModel session) async {
@@ -84,6 +96,12 @@ class TrainingFirestoreDataSourceImpl implements TrainingFirestoreDataSource {
   Future<TrainingStatsModel?> getUserTrainingStats(String userId) async {
     try {
       final doc = await _statsDocument(userId).get();
+      if (!doc.exists) {
+        // Create initial stats if they don't exist
+        final initialStats = TrainingStatsModel(userId: userId, updatedAt: DateTime.now());
+        await _statsDocument(userId).set(initialStats);
+        return initialStats;
+      }
       return doc.data();
     } catch (e) {
       throw TrainingFirestoreException('Failed to get user training stats: $e');
@@ -101,7 +119,16 @@ class TrainingFirestoreDataSourceImpl implements TrainingFirestoreDataSource {
 
   @override
   Stream<TrainingStatsModel?> watchUserTrainingStats(String userId) {
-    return _statsDocument(userId).snapshots().map((snapshot) => snapshot.data());
+    return _statsDocument(userId).snapshots().map((snapshot) {
+      if (!snapshot.exists) {
+        // Create initial stats if they don't exist
+        final initialStats = TrainingStatsModel(userId: userId, updatedAt: DateTime.now());
+        // Don't await this, just fire and forget
+        _statsDocument(userId).set(initialStats);
+        return initialStats;
+      }
+      return snapshot.data();
+    });
   }
 }
 

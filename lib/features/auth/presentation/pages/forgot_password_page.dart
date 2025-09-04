@@ -35,7 +35,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
     });
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Reset Password'), backgroundColor: Colors.transparent, elevation: 0),
+      appBar: AppBar(title: const Text('Réinitialiser le mot de passe'), backgroundColor: Colors.transparent, elevation: 0),
       body: SafeArea(
         child: Padding(padding: const EdgeInsets.all(24.0), child: _emailSent ? _buildSuccessView() : _buildFormView(authState)),
       ),
@@ -55,7 +55,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           const SizedBox(height: 32),
 
           Text(
-            'Forgot Password?',
+            'Mot de passe oublié ?',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
@@ -63,7 +63,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           const SizedBox(height: 16),
 
           Text(
-            'Don\'t worry! Enter your email address and we\'ll send you a link to reset your password.',
+            'Ne vous inquiétez pas ! Saisissez votre adresse email et nous vous enverrons un lien pour réinitialiser votre mot de passe.',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
             textAlign: TextAlign.center,
           ),
@@ -78,10 +78,10 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
             textInputAction: TextInputAction.done,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter your email';
+                return 'Veuillez saisir votre email';
               }
               if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-                return 'Please enter a valid email';
+                return 'Veuillez saisir un email valide';
               }
               return null;
             },
@@ -93,13 +93,15 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
           // Send reset email button
           FilledButton(
             onPressed: authState.isLoading ? null : _sendResetEmail,
-            child: authState.isLoading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Text('Send Reset Link'),
+            child: authState.isLoading
+                ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                : const Text('Envoyer le lien de réinitialisation'),
           ),
 
           const SizedBox(height: 24),
 
           // Back to login
-          TextButton(onPressed: () => context.pop(), child: const Text('Back to Sign In')),
+          TextButton(onPressed: () => context.pop(), child: const Text('Retour à la connexion')),
         ],
       ),
     );
@@ -116,7 +118,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         const SizedBox(height: 32),
 
         Text(
-          'Check Your Email',
+          'Vérifiez votre Email',
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
           textAlign: TextAlign.center,
         ),
@@ -124,7 +126,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         const SizedBox(height: 16),
 
         Text(
-          'We\'ve sent a password reset link to ${_emailController.text}',
+          'Nous avons envoyé un lien de réinitialisation de mot de passe à ${_emailController.text}',
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
           textAlign: TextAlign.center,
         ),
@@ -132,7 +134,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
         const SizedBox(height: 8),
 
         Text(
-          'Please check your email and follow the instructions to reset your password.',
+          'Veuillez vérifier votre email et suivre les instructions pour réinitialiser votre mot de passe.',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
           textAlign: TextAlign.center,
         ),
@@ -145,12 +147,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               _emailSent = false;
             });
           },
-          child: const Text('Send Again'),
+          child: const Text('Envoyer à nouveau'),
         ),
 
         const SizedBox(height: 16),
 
-        FilledButton(onPressed: () => context.go('/auth/login'), child: const Text('Back to Sign In')),
+        FilledButton(onPressed: () => context.go('/auth/login'), child: const Text('Retour à la connexion')),
       ],
     );
   }

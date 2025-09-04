@@ -14,7 +14,7 @@ class TrainingStatsCard extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: _StatItem(icon: Icons.local_fire_department, value: '${stats.currentStreak}', label: 'Day Streak', color: Colors.orange),
+              child: _StatItem(icon: Icons.local_fire_department, value: '${stats.currentStreak}', label: 'Jours de Suite', color: Colors.orange),
             ),
             Expanded(
               child: _StatItem(icon: Icons.fitness_center, value: '${stats.totalSessions}', label: 'Sessions', color: Colors.blue),
@@ -77,7 +77,7 @@ class _CategoryBreakdown extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Training Breakdown', style: Theme.of(context).textTheme.titleSmall),
+        Text('Répartition de l\'Entraînement', style: Theme.of(context).textTheme.titleSmall),
         const SizedBox(height: 8),
         ...sessionsByCategory.entries.map((entry) {
           final percentage = totalSessions > 0 ? (entry.value / totalSessions) : 0.0;
@@ -147,7 +147,7 @@ class _CategoryProgressBar extends StatelessWidget {
       case TrainingCategory.cardio:
         return 'Cardio';
       case TrainingCategory.strength:
-        return 'Strength';
+        return 'Force';
       case TrainingCategory.yoga:
         return 'Yoga';
     }
@@ -169,13 +169,13 @@ class _AchievementsPreview extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Recent Achievements', style: Theme.of(context).textTheme.titleSmall),
+            Text('Récents Succès', style: Theme.of(context).textTheme.titleSmall),
             if (achievements.length > 3)
               TextButton(
                 onPressed: () {
                   // Navigate to full achievements page
                 },
-                child: const Text('View All'),
+                child: const Text('Voir Tout'),
               ),
           ],
         ),

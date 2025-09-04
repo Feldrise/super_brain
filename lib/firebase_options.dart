@@ -57,7 +57,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDKCuEr4iDK352wJb0dy53hd3bouRJpxoM',
-    appId: '1:467274672074:android:6099e80815b614d330d133',
+    appId: '1:467274672074:android:2b4708270dbc490e30d133',
     messagingSenderId: '467274672074',
     projectId: 'superbrain-feldrise',
     storageBucket: 'superbrain-feldrise.firebasestorage.app',
@@ -69,6 +69,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '467274672074',
     projectId: 'superbrain-feldrise',
     storageBucket: 'superbrain-feldrise.firebasestorage.app',
+    iosClientId: '467274672074-igjdh0vgpnc3nkakrpvfrtp060k8hu0l.apps.googleusercontent.com',
     iosBundleId: 'com.feldrise.superBrain',
   );
 

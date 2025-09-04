@@ -250,7 +250,7 @@ class TrainingSessionModel {
   );
 
   factory TrainingSessionModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>? ?? {};
     return TrainingSessionModel.fromJson({'id': doc.id, ...data});
   }
 
@@ -433,7 +433,7 @@ class TrainingStatsModel {
   );
 
   factory TrainingStatsModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>;
+    final data = doc.data() as Map<String, dynamic>? ?? {};
     return TrainingStatsModel.fromJson({'userId': doc.id, ...data});
   }
 

@@ -287,8 +287,8 @@ class ExerciseTimerController extends StateNotifier<ExerciseTimerState> {
       } else {
         state = state.copyWith(remainingSeconds: newRemaining);
 
-        // Play countdown beep for last 3 seconds
-        if (newRemaining <= 5 && newRemaining > 0) {
+        // Play countdown beep for last 5 seconds
+        if (newRemaining <= 5 && newRemaining > 4) {
           _playCountdownBeep();
         }
       }

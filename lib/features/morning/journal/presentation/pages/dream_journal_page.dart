@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:super_brain/core/providers/auth_providers.dart';
 import 'package:super_brain/features/morning/journal/domain/entities/dream_entry.dart';
 import 'package:super_brain/features/morning/journal/presentation/pages/dream_entry_page.dart';
 import 'package:super_brain/features/morning/journal/presentation/providers/dream_journal_providers.dart';
+import 'package:super_brain/features/morning/journal/presentation/widgets/dream_stats_header.dart';
+import 'package:super_brain/features/morning/journal/presentation/widgets/dream_filter_bar.dart';
+import 'package:super_brain/features/morning/journal/presentation/widgets/dream_entry_card.dart';
+import 'package:super_brain/features/morning/journal/presentation/widgets/dream_empty_state.dart';
 
 class DreamJournalPage extends ConsumerWidget {
   const DreamJournalPage({super.key});
@@ -12,6 +15,7 @@ class DreamJournalPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = ref.watch(currentUserProvider);
+    final theme = Theme.of(context);
 
     // Check if user is authenticated
     if (user == null) {
@@ -43,235 +47,126 @@ class DreamJournalPage extends ConsumerWidget {
     final searchQuery = ref.watch(searchQueryProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Journal des rêves'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        actions: [IconButton(onPressed: () => _showSearchDialog(context, ref), icon: const Icon(Icons.search))],
-      ),
-      body: Column(
-        children: [
-          if (searchQuery.isNotEmpty) _SearchHeader(query: searchQuery),
-          Expanded(
-            child: dreamEntriesAsync.when(
-              data: (entries) {
-                if (entries.isEmpty) {
-                  return _EmptyState(hasSearch: searchQuery.isNotEmpty);
-                }
-                return _DreamEntriesList(entries: entries);
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stack) => _ErrorState(error: error.toString()),
+      backgroundColor: theme.colorScheme.surface,
+      body: CustomScrollView(
+        slivers: [
+          // App Bar
+          SliverAppBar(
+            title: const Text('Journal de Rêves'),
+            backgroundColor: theme.colorScheme.surface,
+            surfaceTintColor: theme.colorScheme.surface,
+            elevation: 0,
+            floating: true,
+            snap: true,
+            actions: [
+              IconButton(
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DreamEntryPage())),
+                icon: const Icon(Icons.add),
+                tooltip: 'Nouveau rêve',
+              ),
+            ],
+          ),
+
+          // Stats Header
+          const SliverToBoxAdapter(child: DreamStatsHeader()),
+
+          // Filter Bar
+          const SliverToBoxAdapter(child: SizedBox(height: 16)),
+          const SliverToBoxAdapter(child: DreamFilterBar()),
+
+          // Content
+          dreamEntriesAsync.when(
+            data: (dreams) {
+              if (dreams.isEmpty) {
+                return SliverFillRemaining(
+                  child: DreamEmptyState(
+                    onCreateFirst: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DreamEntryPage())),
+                    hasSearchQuery: searchQuery.isNotEmpty,
+                    searchQuery: searchQuery,
+                  ),
+                );
+              }
+
+              return SliverPadding(
+                padding: const EdgeInsets.only(top: 16, bottom: 100),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final dream = dreams[index];
+                    return DreamEntryCard(
+                      dreamEntry: dream,
+                      onTap: () => _viewDream(context, dream),
+                      onEdit: () => _editDream(context, dream),
+                      onDelete: () => _deleteDream(context, ref, dream),
+                    );
+                  }, childCount: dreams.length),
+                ),
+              );
+            },
+            loading: () => const SliverFillRemaining(child: Center(child: CircularProgressIndicator())),
+            error: (error, stack) => SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error_outline, size: 64, color: theme.colorScheme.error),
+                    const SizedBox(height: 16),
+                    Text('Erreur lors du chargement', style: theme.textTheme.titleLarge),
+                    const SizedBox(height: 8),
+                    Text(error.toString(), style: theme.textTheme.bodyMedium, textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    FilledButton(onPressed: () => ref.refresh(filteredDreamEntriesProvider), child: const Text('Réessayer')),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
       ),
+
+      // Floating Action Button
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _navigateToCreateDream(context),
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DreamEntryPage())),
         icon: const Icon(Icons.add),
         label: const Text('Nouveau rêve'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        backgroundColor: theme.colorScheme.primaryContainer,
+        foregroundColor: theme.colorScheme.onPrimaryContainer,
       ),
     );
   }
 
-  void _showSearchDialog(BuildContext context, WidgetRef ref) {
+  void _viewDream(BuildContext context, DreamEntry dream) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => DreamEntryPage(entry: dream)));
+  }
+
+  void _editDream(BuildContext context, DreamEntry dream) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (_) => DreamEntryPage(entry: dream)));
+  }
+
+  void _deleteDream(BuildContext context, WidgetRef ref, DreamEntry dream) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Rechercher'),
-        content: TextField(
-          autofocus: true,
-          decoration: const InputDecoration(hintText: 'Mots-clés, humeur, catégorie...', border: OutlineInputBorder()),
-          onChanged: (value) => ref.read(searchQueryProvider.notifier).state = value,
+        title: const Text('Supprimer le rêve'),
+        content: const Text(
+          'Êtes-vous sûr de vouloir supprimer ce rêve ? '
+          'Cette action ne peut pas être annulée.',
         ),
         actions: [
-          TextButton(
+          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Annuler')),
+          FilledButton(
             onPressed: () {
-              ref.read(searchQueryProvider.notifier).state = '';
+              final deleteUseCase = ref.read(deleteDreamEntryUseCaseProvider);
+              if (deleteUseCase != null) {
+                deleteUseCase.call(dream.id);
+              }
               Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rêve supprimé'), behavior: SnackBarBehavior.floating));
             },
-            child: const Text('Effacer'),
-          ),
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Fermer')),
-        ],
-      ),
-    );
-  }
-
-  void _navigateToCreateDream(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DreamEntryPage()));
-  }
-}
-
-class _SearchHeader extends StatelessWidget {
-  const _SearchHeader({required this.query});
-
-  final String query;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.all(16),
-      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(12)),
-      child: Row(
-        children: [
-          Icon(Icons.search, color: Theme.of(context).colorScheme.onSurfaceVariant),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text('Recherche: "$query"', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            style: FilledButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error, foregroundColor: Theme.of(context).colorScheme.onError),
+            child: const Text('Supprimer'),
           ),
         ],
       ),
     );
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState({required this.hasSearch});
-
-  final bool hasSearch;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(hasSearch ? Icons.search_off : Icons.bedtime_outlined, size: 80, color: Theme.of(context).colorScheme.onSurfaceVariant),
-            const SizedBox(height: 16),
-            Text(
-              hasSearch ? 'Aucun rêve trouvé' : 'Aucun rêve enregistré',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              hasSearch ? 'Essayez une autre recherche' : 'Commencez à noter vos rêves\npour explorer votre monde intérieur',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ErrorState extends StatelessWidget {
-  const _ErrorState({required this.error});
-
-  final String error;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 80, color: Theme.of(context).colorScheme.error),
-            const SizedBox(height: 16),
-            Text('Erreur', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Theme.of(context).colorScheme.error)),
-            const SizedBox(height: 8),
-            Text(error, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _DreamEntriesList extends StatelessWidget {
-  const _DreamEntriesList({required this.entries});
-
-  final List<DreamEntry> entries;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16),
-      itemCount: entries.length,
-      separatorBuilder: (context, index) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final entry = entries[index];
-        return _DreamEntryCard(entry: entry);
-      },
-    );
-  }
-}
-
-class _DreamEntryCard extends StatelessWidget {
-  const _DreamEntryCard({required this.entry});
-
-  final DreamEntry entry;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final dateFormat = DateFormat('dd MMM yyyy', 'fr_FR');
-
-    return Card(
-      child: InkWell(
-        onTap: () => _navigateToViewDream(context),
-        borderRadius: BorderRadius.circular(12),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  if (entry.mood != null) ...[Text(_getMoodEmoji(entry.mood!), style: const TextStyle(fontSize: 20)), const SizedBox(width: 8)],
-                  if (entry.category != null) ...[Text(_getCategoryEmoji(entry.category!), style: const TextStyle(fontSize: 20)), const SizedBox(width: 8)],
-                  if (entry.isLucid)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(color: Colors.amber.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(4)),
-                      child: Text(
-                        'Lucide',
-                        style: theme.textTheme.bodySmall?.copyWith(color: Colors.amber[800], fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  const Spacer(),
-                  Text(dateFormat.format(entry.dreamDate ?? entry.createdAt), style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(entry.content, style: theme.textTheme.bodyMedium, maxLines: 3, overflow: TextOverflow.ellipsis),
-              if (entry.tags.isNotEmpty) ...[
-                const SizedBox(height: 8),
-                Wrap(
-                  spacing: 4,
-                  children: entry.tags
-                      .take(3)
-                      .map((tag) => Chip(label: Text(tag), labelStyle: theme.textTheme.bodySmall, materialTapTargetSize: MaterialTapTargetSize.shrinkWrap))
-                      .toList(),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  String _getMoodEmoji(String mood) {
-    final dreamMood = DreamMood.values.firstWhere((m) => m.name == mood, orElse: () => DreamMood.neutral);
-    return dreamMood.emoji;
-  }
-
-  String _getCategoryEmoji(String category) {
-    final dreamCategory = DreamCategory.values.firstWhere((c) => c.name == category, orElse: () => DreamCategory.normal);
-    return dreamCategory.emoji;
-  }
-
-  void _navigateToViewDream(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => DreamEntryPage(entry: entry)));
   }
 }

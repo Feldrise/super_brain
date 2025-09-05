@@ -54,22 +54,81 @@ final dreamEntriesProvider = FutureProvider<List<DreamEntry>>((ref) async {
 
 final searchQueryProvider = StateProvider<String>((ref) => '');
 
-final filteredDreamEntriesProvider = FutureProvider<List<DreamEntry>>((ref) async {
+// Filter providers for better organization
+final selectedMoodFilterProvider = StateProvider<String?>((ref) => null);
+final selectedCategoryFilterProvider = StateProvider<String?>((ref) => null);
+final showLucidOnlyProvider = StateProvider<bool>((ref) => false);
+final sortOrderProvider = StateProvider<DreamSortOrder>((ref) => DreamSortOrder.dateDesc);
+
+enum DreamSortOrder {
+  dateDesc('Plus récents'),
+  dateAsc('Plus anciens'),
+  contentLength('Plus longs'),
+  lucidFirst('Lucides d\'abord');
+
+  const DreamSortOrder(this.displayName);
+  final String displayName;
+}
+
+final filteredDreamEntriesProvider = FutureProvider.autoDispose<List<DreamEntry>>((ref) async {
   final query = ref.watch(searchQueryProvider);
-  final searchUseCase = ref.read(searchDreamEntriesUseCaseProvider);
-  final getDreamEntriesUseCase = ref.read(getDreamEntriesUseCaseProvider);
+  final moodFilter = ref.watch(selectedMoodFilterProvider);
+  final categoryFilter = ref.watch(selectedCategoryFilterProvider);
+  final showLucidOnly = ref.watch(showLucidOnlyProvider);
+  final sortOrder = ref.watch(sortOrderProvider);
+  
+  // Watch the base entries to ensure we refresh when dreams are added/updated/deleted
+  final baseEntries = await ref.watch(dreamEntriesProvider.future);
+  
+  List<DreamEntry> entries = List.from(baseEntries);
 
-  if (getDreamEntriesUseCase == null) return [];
-
-  if (query.isEmpty) {
-    return await getDreamEntriesUseCase.call();
-  } else {
-    if (searchUseCase == null) return [];
-    return await searchUseCase.call(query);
+  // Apply search filter
+  if (query.isNotEmpty) {
+    entries = entries.where((entry) {
+      final queryLower = query.toLowerCase();
+      return entry.content.toLowerCase().contains(queryLower) ||
+             entry.tags.any((tag) => tag.toLowerCase().contains(queryLower));
+    }).toList();
   }
-});
 
-// Dream creation state
+  // Apply mood filter
+  if (moodFilter != null) {
+    entries = entries.where((entry) => entry.mood == moodFilter).toList();
+  }
+
+  // Apply category filter
+  if (categoryFilter != null) {
+    entries = entries.where((entry) => entry.category == categoryFilter).toList();
+  }
+
+  // Apply lucid filter
+  if (showLucidOnly) {
+    entries = entries.where((entry) => entry.isLucid).toList();
+  }
+
+  // Apply sorting
+  switch (sortOrder) {
+    case DreamSortOrder.dateDesc:
+      entries.sort((a, b) => (b.dreamDate ?? b.createdAt).compareTo(a.dreamDate ?? a.createdAt));
+      break;
+    case DreamSortOrder.dateAsc:
+      entries.sort((a, b) => (a.dreamDate ?? a.createdAt).compareTo(b.dreamDate ?? b.createdAt));
+      break;
+    case DreamSortOrder.contentLength:
+      entries.sort((a, b) => b.content.length.compareTo(a.content.length));
+      break;
+    case DreamSortOrder.lucidFirst:
+      entries.sort((a, b) {
+        if (a.isLucid && !b.isLucid) return -1;
+        if (!a.isLucid && b.isLucid) return 1;
+        return (b.dreamDate ?? b.createdAt).compareTo(a.dreamDate ?? a.createdAt);
+      });
+      break;
+  }
+
+  return entries;
+}); // Dream creation state
+
 class DreamEntryFormState {
   const DreamEntryFormState({this.content = '', this.mood, this.category, this.isLucid = false, this.isRecurring = false, this.tags = const [], this.dreamDate, this.editingEntry});
 

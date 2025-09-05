@@ -32,9 +32,29 @@ class StudyWordListUseCase {
       return;
     }
 
-    // Only update SRS for user-created lists (daily lists shouldn't have their SRS modified)
-    if (wordList.isUserCreated) {
-      // Calculate next review using SRS
+    // Check if this is a daily word list being learned for the first time
+    final isDailyList = !wordList.isUserCreated;
+
+    if (isDailyList) {
+      // For daily lists, save as learned to user's collection when they complete it
+      final learnedWordList = wordList.copyWith(
+        id: '${wordList.id}_learned_${session.userId}',
+        isUserCreated: true,
+        isLearned: finalScore >= 80, // Mark as learned if score is 80% or higher
+        learnedAt: finalScore >= 80 ? DateTime.now() : null,
+        completedSessions: 1,
+        averageScore: finalScore.toDouble(),
+        nextReviewAt: DateTime.now().add(const Duration(days: 1)), // Review again tomorrow
+      );
+
+      await _repository.saveWordList(learnedWordList, session.userId);
+
+      // Mark as learned if score is high enough
+      if (finalScore >= 80) {
+        await _repository.markWordListAsLearned(learnedWordList.id, session.userId, finalScore: finalScore, sessionCount: 1);
+      }
+    } else {
+      // For user-created lists, update existing SRS data
       final srsResult = SrsCalculator.calculateNextReview(currentEasiness: wordList.easiness, currentInterval: wordList.interval, currentReps: wordList.reps, quality: quality);
 
       // Update SRS data
@@ -46,6 +66,11 @@ class StudyWordListUseCase {
         reps: srsResult.reps,
         nextReviewAt: srsResult.nextReviewAt,
       );
+
+      // Mark as learned if this is a high-performing session
+      if (finalScore >= 90 && wordList.completedSessions >= 2) {
+        await _repository.markWordListAsLearned(session.wordListId, session.userId, finalScore: finalScore, sessionCount: wordList.completedSessions + 1);
+      }
     }
   }
 
@@ -122,5 +147,15 @@ class GetDueWordListsUseCase {
 
   Stream<List<WordList>> call(String userId) {
     return _repository.watchDueWordLists(userId);
+  }
+}
+
+class GetLearnedWordListsUseCase {
+  final WordListRepository _repository;
+
+  GetLearnedWordListsUseCase(this._repository);
+
+  Stream<List<WordList>> call(String userId) {
+    return _repository.watchLearnedWordLists(userId);
   }
 }

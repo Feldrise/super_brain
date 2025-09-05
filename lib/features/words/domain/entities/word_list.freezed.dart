@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$WordList {
 
- String get id; String get title; List<String> get words; String get difficulty; DateTime? get nextReviewAt; double get easiness; int get interval; int get reps; DateTime get createdAt; String? get category; bool get isUserCreated; bool get isActive;
+ String get id; String get title; List<String> get words; String get difficulty; DateTime? get nextReviewAt; double get easiness; int get interval; int get reps; DateTime get createdAt; String? get category; bool get isUserCreated; bool get isActive; bool get isLearned; DateTime? get learnedAt; int get completedSessions; double get averageScore;
 /// Create a copy of WordList
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $WordListCopyWith<WordList> get copyWith => _$WordListCopyWithImpl<WordList>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WordList&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other.words, words)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&(identical(other.nextReviewAt, nextReviewAt) || other.nextReviewAt == nextReviewAt)&&(identical(other.easiness, easiness) || other.easiness == easiness)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.category, category) || other.category == category)&&(identical(other.isUserCreated, isUserCreated) || other.isUserCreated == isUserCreated)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WordList&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other.words, words)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&(identical(other.nextReviewAt, nextReviewAt) || other.nextReviewAt == nextReviewAt)&&(identical(other.easiness, easiness) || other.easiness == easiness)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.category, category) || other.category == category)&&(identical(other.isUserCreated, isUserCreated) || other.isUserCreated == isUserCreated)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.isLearned, isLearned) || other.isLearned == isLearned)&&(identical(other.learnedAt, learnedAt) || other.learnedAt == learnedAt)&&(identical(other.completedSessions, completedSessions) || other.completedSessions == completedSessions)&&(identical(other.averageScore, averageScore) || other.averageScore == averageScore));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(words),difficulty,nextReviewAt,easiness,interval,reps,createdAt,category,isUserCreated,isActive);
+int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(words),difficulty,nextReviewAt,easiness,interval,reps,createdAt,category,isUserCreated,isActive,isLearned,learnedAt,completedSessions,averageScore);
 
 @override
 String toString() {
-  return 'WordList(id: $id, title: $title, words: $words, difficulty: $difficulty, nextReviewAt: $nextReviewAt, easiness: $easiness, interval: $interval, reps: $reps, createdAt: $createdAt, category: $category, isUserCreated: $isUserCreated, isActive: $isActive)';
+  return 'WordList(id: $id, title: $title, words: $words, difficulty: $difficulty, nextReviewAt: $nextReviewAt, easiness: $easiness, interval: $interval, reps: $reps, createdAt: $createdAt, category: $category, isUserCreated: $isUserCreated, isActive: $isActive, isLearned: $isLearned, learnedAt: $learnedAt, completedSessions: $completedSessions, averageScore: $averageScore)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $WordListCopyWith<$Res>  {
   factory $WordListCopyWith(WordList value, $Res Function(WordList) _then) = _$WordListCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, List<String> words, String difficulty, DateTime? nextReviewAt, double easiness, int interval, int reps, DateTime createdAt, String? category, bool isUserCreated, bool isActive
+ String id, String title, List<String> words, String difficulty, DateTime? nextReviewAt, double easiness, int interval, int reps, DateTime createdAt, String? category, bool isUserCreated, bool isActive, bool isLearned, DateTime? learnedAt, int completedSessions, double averageScore
 });
 
 
@@ -65,7 +65,7 @@ class _$WordListCopyWithImpl<$Res>
 
 /// Create a copy of WordList
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? words = null,Object? difficulty = null,Object? nextReviewAt = freezed,Object? easiness = null,Object? interval = null,Object? reps = null,Object? createdAt = null,Object? category = freezed,Object? isUserCreated = null,Object? isActive = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? words = null,Object? difficulty = null,Object? nextReviewAt = freezed,Object? easiness = null,Object? interval = null,Object? reps = null,Object? createdAt = null,Object? category = freezed,Object? isUserCreated = null,Object? isActive = null,Object? isLearned = null,Object? learnedAt = freezed,Object? completedSessions = null,Object? averageScore = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -79,7 +79,11 @@ as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cas
 as DateTime,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as String?,isUserCreated: null == isUserCreated ? _self.isUserCreated : isUserCreated // ignore: cast_nullable_to_non_nullable
 as bool,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isLearned: null == isLearned ? _self.isLearned : isLearned // ignore: cast_nullable_to_non_nullable
+as bool,learnedAt: freezed == learnedAt ? _self.learnedAt : learnedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,completedSessions: null == completedSessions ? _self.completedSessions : completedSessions // ignore: cast_nullable_to_non_nullable
+as int,averageScore: null == averageScore ? _self.averageScore : averageScore // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -164,10 +168,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  List<String> words,  String difficulty,  DateTime? nextReviewAt,  double easiness,  int interval,  int reps,  DateTime createdAt,  String? category,  bool isUserCreated,  bool isActive)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  List<String> words,  String difficulty,  DateTime? nextReviewAt,  double easiness,  int interval,  int reps,  DateTime createdAt,  String? category,  bool isUserCreated,  bool isActive,  bool isLearned,  DateTime? learnedAt,  int completedSessions,  double averageScore)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WordList() when $default != null:
-return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextReviewAt,_that.easiness,_that.interval,_that.reps,_that.createdAt,_that.category,_that.isUserCreated,_that.isActive);case _:
+return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextReviewAt,_that.easiness,_that.interval,_that.reps,_that.createdAt,_that.category,_that.isUserCreated,_that.isActive,_that.isLearned,_that.learnedAt,_that.completedSessions,_that.averageScore);case _:
   return orElse();
 
 }
@@ -185,10 +189,10 @@ return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextRevi
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  List<String> words,  String difficulty,  DateTime? nextReviewAt,  double easiness,  int interval,  int reps,  DateTime createdAt,  String? category,  bool isUserCreated,  bool isActive)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  List<String> words,  String difficulty,  DateTime? nextReviewAt,  double easiness,  int interval,  int reps,  DateTime createdAt,  String? category,  bool isUserCreated,  bool isActive,  bool isLearned,  DateTime? learnedAt,  int completedSessions,  double averageScore)  $default,) {final _that = this;
 switch (_that) {
 case _WordList():
-return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextReviewAt,_that.easiness,_that.interval,_that.reps,_that.createdAt,_that.category,_that.isUserCreated,_that.isActive);case _:
+return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextReviewAt,_that.easiness,_that.interval,_that.reps,_that.createdAt,_that.category,_that.isUserCreated,_that.isActive,_that.isLearned,_that.learnedAt,_that.completedSessions,_that.averageScore);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -205,10 +209,10 @@ return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextRevi
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  List<String> words,  String difficulty,  DateTime? nextReviewAt,  double easiness,  int interval,  int reps,  DateTime createdAt,  String? category,  bool isUserCreated,  bool isActive)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  List<String> words,  String difficulty,  DateTime? nextReviewAt,  double easiness,  int interval,  int reps,  DateTime createdAt,  String? category,  bool isUserCreated,  bool isActive,  bool isLearned,  DateTime? learnedAt,  int completedSessions,  double averageScore)?  $default,) {final _that = this;
 switch (_that) {
 case _WordList() when $default != null:
-return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextReviewAt,_that.easiness,_that.interval,_that.reps,_that.createdAt,_that.category,_that.isUserCreated,_that.isActive);case _:
+return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextReviewAt,_that.easiness,_that.interval,_that.reps,_that.createdAt,_that.category,_that.isUserCreated,_that.isActive,_that.isLearned,_that.learnedAt,_that.completedSessions,_that.averageScore);case _:
   return null;
 
 }
@@ -220,7 +224,7 @@ return $default(_that.id,_that.title,_that.words,_that.difficulty,_that.nextRevi
 @JsonSerializable()
 
 class _WordList implements WordList {
-  const _WordList({required this.id, required this.title, required final  List<String> words, this.difficulty = 'Moyen', this.nextReviewAt, this.easiness = 2.5, this.interval = 1, this.reps = 0, required this.createdAt, this.category, this.isUserCreated = false, this.isActive = true}): _words = words;
+  const _WordList({required this.id, required this.title, required final  List<String> words, this.difficulty = 'Moyen', this.nextReviewAt, this.easiness = 2.5, this.interval = 1, this.reps = 0, required this.createdAt, this.category, this.isUserCreated = false, this.isActive = true, this.isLearned = false, this.learnedAt, this.completedSessions = 0, this.averageScore = 0}): _words = words;
   factory _WordList.fromJson(Map<String, dynamic> json) => _$WordListFromJson(json);
 
 @override final  String id;
@@ -241,6 +245,10 @@ class _WordList implements WordList {
 @override final  String? category;
 @override@JsonKey() final  bool isUserCreated;
 @override@JsonKey() final  bool isActive;
+@override@JsonKey() final  bool isLearned;
+@override final  DateTime? learnedAt;
+@override@JsonKey() final  int completedSessions;
+@override@JsonKey() final  double averageScore;
 
 /// Create a copy of WordList
 /// with the given fields replaced by the non-null parameter values.
@@ -255,16 +263,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WordList&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other._words, _words)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&(identical(other.nextReviewAt, nextReviewAt) || other.nextReviewAt == nextReviewAt)&&(identical(other.easiness, easiness) || other.easiness == easiness)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.category, category) || other.category == category)&&(identical(other.isUserCreated, isUserCreated) || other.isUserCreated == isUserCreated)&&(identical(other.isActive, isActive) || other.isActive == isActive));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WordList&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&const DeepCollectionEquality().equals(other._words, _words)&&(identical(other.difficulty, difficulty) || other.difficulty == difficulty)&&(identical(other.nextReviewAt, nextReviewAt) || other.nextReviewAt == nextReviewAt)&&(identical(other.easiness, easiness) || other.easiness == easiness)&&(identical(other.interval, interval) || other.interval == interval)&&(identical(other.reps, reps) || other.reps == reps)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.category, category) || other.category == category)&&(identical(other.isUserCreated, isUserCreated) || other.isUserCreated == isUserCreated)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.isLearned, isLearned) || other.isLearned == isLearned)&&(identical(other.learnedAt, learnedAt) || other.learnedAt == learnedAt)&&(identical(other.completedSessions, completedSessions) || other.completedSessions == completedSessions)&&(identical(other.averageScore, averageScore) || other.averageScore == averageScore));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(_words),difficulty,nextReviewAt,easiness,interval,reps,createdAt,category,isUserCreated,isActive);
+int get hashCode => Object.hash(runtimeType,id,title,const DeepCollectionEquality().hash(_words),difficulty,nextReviewAt,easiness,interval,reps,createdAt,category,isUserCreated,isActive,isLearned,learnedAt,completedSessions,averageScore);
 
 @override
 String toString() {
-  return 'WordList(id: $id, title: $title, words: $words, difficulty: $difficulty, nextReviewAt: $nextReviewAt, easiness: $easiness, interval: $interval, reps: $reps, createdAt: $createdAt, category: $category, isUserCreated: $isUserCreated, isActive: $isActive)';
+  return 'WordList(id: $id, title: $title, words: $words, difficulty: $difficulty, nextReviewAt: $nextReviewAt, easiness: $easiness, interval: $interval, reps: $reps, createdAt: $createdAt, category: $category, isUserCreated: $isUserCreated, isActive: $isActive, isLearned: $isLearned, learnedAt: $learnedAt, completedSessions: $completedSessions, averageScore: $averageScore)';
 }
 
 
@@ -275,7 +283,7 @@ abstract mixin class _$WordListCopyWith<$Res> implements $WordListCopyWith<$Res>
   factory _$WordListCopyWith(_WordList value, $Res Function(_WordList) _then) = __$WordListCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, List<String> words, String difficulty, DateTime? nextReviewAt, double easiness, int interval, int reps, DateTime createdAt, String? category, bool isUserCreated, bool isActive
+ String id, String title, List<String> words, String difficulty, DateTime? nextReviewAt, double easiness, int interval, int reps, DateTime createdAt, String? category, bool isUserCreated, bool isActive, bool isLearned, DateTime? learnedAt, int completedSessions, double averageScore
 });
 
 
@@ -292,7 +300,7 @@ class __$WordListCopyWithImpl<$Res>
 
 /// Create a copy of WordList
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? words = null,Object? difficulty = null,Object? nextReviewAt = freezed,Object? easiness = null,Object? interval = null,Object? reps = null,Object? createdAt = null,Object? category = freezed,Object? isUserCreated = null,Object? isActive = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? words = null,Object? difficulty = null,Object? nextReviewAt = freezed,Object? easiness = null,Object? interval = null,Object? reps = null,Object? createdAt = null,Object? category = freezed,Object? isUserCreated = null,Object? isActive = null,Object? isLearned = null,Object? learnedAt = freezed,Object? completedSessions = null,Object? averageScore = null,}) {
   return _then(_WordList(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
@@ -306,7 +314,11 @@ as int,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cas
 as DateTime,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as String?,isUserCreated: null == isUserCreated ? _self.isUserCreated : isUserCreated // ignore: cast_nullable_to_non_nullable
 as bool,isActive: null == isActive ? _self.isActive : isActive // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,isLearned: null == isLearned ? _self.isLearned : isLearned // ignore: cast_nullable_to_non_nullable
+as bool,learnedAt: freezed == learnedAt ? _self.learnedAt : learnedAt // ignore: cast_nullable_to_non_nullable
+as DateTime?,completedSessions: null == completedSessions ? _self.completedSessions : completedSessions // ignore: cast_nullable_to_non_nullable
+as int,averageScore: null == averageScore ? _self.averageScore : averageScore // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

@@ -21,6 +21,12 @@ _WordList _$WordListFromJson(Map<String, dynamic> json) => _WordList(
   category: json['category'] as String?,
   isUserCreated: json['isUserCreated'] as bool? ?? false,
   isActive: json['isActive'] as bool? ?? true,
+  isLearned: json['isLearned'] as bool? ?? false,
+  learnedAt: json['learnedAt'] == null
+      ? null
+      : DateTime.parse(json['learnedAt'] as String),
+  completedSessions: (json['completedSessions'] as num?)?.toInt() ?? 0,
+  averageScore: (json['averageScore'] as num?)?.toDouble() ?? 0,
 );
 
 Map<String, dynamic> _$WordListToJson(_WordList instance) => <String, dynamic>{
@@ -36,6 +42,10 @@ Map<String, dynamic> _$WordListToJson(_WordList instance) => <String, dynamic>{
   'category': instance.category,
   'isUserCreated': instance.isUserCreated,
   'isActive': instance.isActive,
+  'isLearned': instance.isLearned,
+  'learnedAt': instance.learnedAt?.toIso8601String(),
+  'completedSessions': instance.completedSessions,
+  'averageScore': instance.averageScore,
 };
 
 _StudySession _$StudySessionFromJson(Map<String, dynamic> json) =>

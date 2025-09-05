@@ -28,6 +28,14 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     final materialTheme = MaterialTheme(Theme.of(context).textTheme);
 
+    // return MaterialApp(
+    //   title: "Test App",
+    //   theme: materialTheme.light(),
+    //   darkTheme: materialTheme.dark(),
+    //   themeMode: brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
+    //   home: Scaffold(body: const Center(child: Text('Hello World'))),
+    // );
+
     return MaterialApp.router(
       title: 'SuperBrain',
       theme: materialTheme.light(),

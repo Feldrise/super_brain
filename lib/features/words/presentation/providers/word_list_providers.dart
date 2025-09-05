@@ -31,6 +31,10 @@ final getDueWordListsUseCaseProvider = Provider<GetDueWordListsUseCase>((ref) {
   return GetDueWordListsUseCase(ref.watch(wordListRepositoryProvider));
 });
 
+final getLearnedWordListsUseCaseProvider = Provider<GetLearnedWordListsUseCase>((ref) {
+  return GetLearnedWordListsUseCase(ref.watch(wordListRepositoryProvider));
+});
+
 // Word lists stream providers
 final dailyWordListsProvider = StreamProvider<List<WordList>>((ref) {
   print('📚 dailyWordListsProvider: Starting to fetch daily word lists');
@@ -62,6 +66,16 @@ final dueWordListsProvider = StreamProvider<List<WordList>>((ref) {
   final useCase = ref.watch(getDueWordListsUseCaseProvider);
   return useCase(user.uid).handleError((error) {
     print('Error in dueWordListsProvider: $error');
+  });
+});
+
+final learnedWordListsProvider = StreamProvider<List<WordList>>((ref) {
+  final user = ref.watch(currentUserProvider);
+  if (user == null) return const Stream.empty();
+
+  final useCase = ref.watch(getLearnedWordListsUseCaseProvider);
+  return useCase(user.uid).handleError((error) {
+    print('Error in learnedWordListsProvider: $error');
   });
 });
 
@@ -108,6 +122,9 @@ List<WordList> _getSampleWordLists() {
       easiness: 2.5,
       interval: 1,
       reps: 0,
+      isLearned: false,
+      completedSessions: 0,
+      averageScore: 0,
     ),
     WordList(
       id: 'sample_objects',
@@ -122,6 +139,9 @@ List<WordList> _getSampleWordLists() {
       easiness: 2.5,
       interval: 1,
       reps: 0,
+      isLearned: false,
+      completedSessions: 0,
+      averageScore: 0,
     ),
     WordList(
       id: 'sample_colors',
@@ -136,6 +156,9 @@ List<WordList> _getSampleWordLists() {
       easiness: 2.5,
       interval: 1,
       reps: 0,
+      isLearned: false,
+      completedSessions: 0,
+      averageScore: 0,
     ),
   ];
 }

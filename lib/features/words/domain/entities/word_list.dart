@@ -18,6 +18,10 @@ abstract class WordList with _$WordList {
     String? category,
     @Default(false) bool isUserCreated,
     @Default(true) bool isActive,
+    @Default(false) bool isLearned,
+    DateTime? learnedAt,
+    @Default(0) int completedSessions,
+    @Default(0) double averageScore,
   }) = _WordList;
 
   factory WordList.fromJson(Map<String, dynamic> json) => _$WordListFromJson(json);
@@ -47,7 +51,7 @@ abstract class WordResult with _$WordResult {
   factory WordResult.fromJson(Map<String, dynamic> json) => _$WordResultFromJson(json);
 }
 
-enum StudyMode { memorization, recall, recognition }
+enum StudyMode { memorization, recall, recognition, firstTime }
 
 enum WordListDifficulty { facile, moyen, difficile }
 

@@ -114,6 +114,24 @@ class WordListRepositoryImpl implements WordListRepository {
   }
 
   @override
+  Stream<List<WordList>> watchLearnedWordLists(String userId) {
+    return _userWordListsCollection(userId)
+        .where('isActive', isEqualTo: true)
+        .where('isLearned', isEqualTo: true)
+        .orderBy('learnedAt', descending: true)
+        .limit(100)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) => doc.data().toDomain()).toList());
+  }
+
+  @override
+  Future<void> markWordListAsLearned(String wordListId, String userId, {required int finalScore, required int sessionCount}) async {
+    await _userWordListsCollection(
+      userId,
+    ).doc(wordListId).update({'isLearned': true, 'learnedAt': Timestamp.now(), 'completedSessions': sessionCount, 'averageScore': finalScore.toDouble()});
+  }
+
+  @override
   Stream<List<StudySession>> watchStudySessions(String userId) {
     return _studySessionsCollection(
       userId,

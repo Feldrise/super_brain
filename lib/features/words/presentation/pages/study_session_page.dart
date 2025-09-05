@@ -96,7 +96,7 @@ class _StudySessionPageState extends ConsumerState<StudySessionPage> {
         _showCompletionDialog(finalScore, correctCount, _results.length);
       }
     } catch (e) {
-      print('Error completing session: $e');
+      // print('Error completing session: $e');
       if (mounted) {
         // Still show completion dialog even if saving failed
         _showCompletionDialog(finalScore, correctCount, _results.length);
@@ -105,24 +105,72 @@ class _StudySessionPageState extends ConsumerState<StudySessionPage> {
   }
 
   void _showCompletionDialog(int score, int correct, int total) {
+    final isExcellent = score >= 90;
+    final isGood = score >= 80;
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Session terminée !'),
+        title: Text(
+          isExcellent
+              ? 'Excellent !'
+              : isGood
+              ? 'Très bien !'
+              : 'Bon travail !',
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(score >= 80 ? Icons.emoji_events : Icons.thumb_up, size: 64, color: score >= 80 ? Colors.amber : Colors.blue),
+            Icon(
+              isExcellent
+                  ? Icons.emoji_events
+                  : isGood
+                  ? Icons.star
+                  : Icons.thumb_up,
+              size: 64,
+              color: isExcellent
+                  ? Colors.amber
+                  : isGood
+                  ? Colors.green
+                  : Colors.blue,
+            ),
             const SizedBox(height: 16),
             Text('Score: $score%', style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Text('$correct sur $total mots corrects'),
             const SizedBox(height: 8),
             Text('Temps: ${_formatDuration(_sessionStopwatch.elapsed)}', style: Theme.of(context).textTheme.bodyMedium),
+            if (widget.mode == StudyMode.recall && isGood) ...[
+              const SizedBox(height: 12),
+              Text(
+                'Révision réussie ! Votre maîtrise s\'améliore.',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.green.shade700),
+              ),
+            ],
           ],
         ),
         actions: [
+          if (!isGood && widget.mode != StudyMode.recall)
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                // Restart session for poor performance
+                setState(() {
+                  _currentWordIndex = 0;
+                  _results.clear();
+                  _showWord = true;
+                  _showAnswer = false;
+                });
+                _sessionStopwatch.reset();
+                _sessionStopwatch.start();
+                _wordStopwatch.reset();
+                _wordStopwatch.start();
+                _startSession();
+              },
+              child: const Text('Recommencer'),
+            ),
           TextButton(
             onPressed: () {
               Navigator.of(dialogContext).pop(); // Close dialog

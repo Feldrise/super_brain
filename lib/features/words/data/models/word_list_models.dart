@@ -14,6 +14,10 @@ class WordListModel {
   final String? category;
   final bool isUserCreated;
   final bool isActive;
+  final bool isLearned;
+  final DateTime? learnedAt;
+  final int completedSessions;
+  final double averageScore;
 
   const WordListModel({
     required this.id,
@@ -28,6 +32,10 @@ class WordListModel {
     this.category,
     this.isUserCreated = false,
     this.isActive = true,
+    this.isLearned = false,
+    this.learnedAt,
+    this.completedSessions = 0,
+    this.averageScore = 0,
   });
 
   // Convert to domain entity
@@ -44,6 +52,10 @@ class WordListModel {
     category: category,
     isUserCreated: isUserCreated,
     isActive: isActive,
+    isLearned: isLearned,
+    learnedAt: learnedAt,
+    completedSessions: completedSessions,
+    averageScore: averageScore,
   );
 
   // Create from domain entity
@@ -60,6 +72,10 @@ class WordListModel {
     category: wordList.category,
     isUserCreated: wordList.isUserCreated,
     isActive: wordList.isActive,
+    isLearned: wordList.isLearned,
+    learnedAt: wordList.learnedAt,
+    completedSessions: wordList.completedSessions,
+    averageScore: wordList.averageScore,
   );
 
   factory WordListModel.fromFirestore(DocumentSnapshot doc) {
@@ -81,6 +97,10 @@ class WordListModel {
       category: json['category'],
       isUserCreated: json['isUserCreated'] ?? false,
       isActive: json['isActive'] ?? true,
+      isLearned: json['isLearned'] ?? false,
+      learnedAt: json['learnedAt'] != null ? (json['learnedAt'] as Timestamp).toDate() : null,
+      completedSessions: json['completedSessions'] ?? 0,
+      averageScore: (json['averageScore'] ?? 0).toDouble(),
     );
   }
 
@@ -91,6 +111,9 @@ class WordListModel {
       data['nextReviewAt'] = Timestamp.fromDate(nextReviewAt!);
     }
     data['createdAt'] = Timestamp.fromDate(createdAt);
+    if (learnedAt != null) {
+      data['learnedAt'] = Timestamp.fromDate(learnedAt!);
+    }
     return data;
   }
 
@@ -108,6 +131,10 @@ class WordListModel {
       'category': category,
       'isUserCreated': isUserCreated,
       'isActive': isActive,
+      'isLearned': isLearned,
+      'learnedAt': learnedAt,
+      'completedSessions': completedSessions,
+      'averageScore': averageScore,
     };
   }
 }

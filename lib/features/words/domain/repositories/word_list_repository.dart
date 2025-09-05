@@ -10,6 +10,9 @@ abstract class WordListRepository {
   /// Get daily word lists (curated content)
   Stream<List<WordList>> watchDailyWordLists();
 
+  /// Get learned word lists
+  Stream<List<WordList>> watchLearnedWordLists(String userId);
+
   /// Get a specific word list
   Future<WordList?> getWordList(String id, {String? userId});
 
@@ -21,6 +24,9 @@ abstract class WordListRepository {
 
   /// Update SRS data after study session
   Future<void> updateSrsData(String wordListId, String userId, {required double easiness, required int interval, required int reps, required DateTime nextReviewAt});
+
+  /// Mark a word list as learned
+  Future<void> markWordListAsLearned(String wordListId, String userId, {required int finalScore, required int sessionCount});
 
   /// Save study session results
   Future<void> saveStudySession(StudySession session);

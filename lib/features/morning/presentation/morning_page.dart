@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_brain/features/training/presentation/pages/training_hub_page.dart';
 import 'package:super_brain/features/morning/journal/presentation/pages/dream_journal_page.dart';
+import 'package:super_brain/features/morning/daily_journal/presentation/pages/daily_journal_page.dart';
+import 'package:super_brain/features/morning/daily_journal/presentation/providers/daily_journal_providers.dart';
 
-class MorningPage extends StatelessWidget {
+class MorningPage extends ConsumerWidget {
   const MorningPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('Routine Matinale'), backgroundColor: Colors.transparent, elevation: 0, centerTitle: true),
       body: SingleChildScrollView(
@@ -43,12 +46,20 @@ class _GreetingSection extends StatelessWidget {
   }
 }
 
-class _RoutineGrid extends StatelessWidget {
+class _RoutineGrid extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final todaysEntry = ref.watch(todaysDailyEntryProvider);
+
     final routineItems = [
       {'title': 'Journal des rêves', 'subtitle': 'Notez vos rêves', 'icon': Icons.bedtime_outlined, 'color': Colors.purple, 'completed': false},
-      {'title': 'Journal quotidien', 'subtitle': 'Vos pensées du jour', 'icon': Icons.edit_note_outlined, 'color': Colors.blue, 'completed': true},
+      {
+        'title': 'Journal quotidien',
+        'subtitle': 'Vos pensées du jour',
+        'icon': Icons.edit_note_outlined,
+        'color': Colors.blue,
+        'completed': todaysEntry.when(data: (entry) => entry != null, loading: () => false, error: (_, __) => false),
+      },
       {'title': 'Respiration guidée', 'subtitle': '5 minutes de calme', 'icon': Icons.self_improvement_outlined, 'color': Colors.green, 'completed': false},
       {'title': 'Entraînement', 'subtitle': 'Session courte', 'icon': Icons.fitness_center_outlined, 'color': Colors.orange, 'completed': false},
     ];
@@ -71,6 +82,8 @@ class _RoutineGrid extends StatelessWidget {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingHubPage()));
             } else if (item['title'] == 'Journal des rêves') {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DreamJournalPage()));
+            } else if (item['title'] == 'Journal quotidien') {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DailyJournalPage()));
             } else {
               // TODO: Navigate to other routines
             }

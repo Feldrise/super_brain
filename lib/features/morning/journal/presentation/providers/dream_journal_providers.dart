@@ -76,18 +76,17 @@ final filteredDreamEntriesProvider = FutureProvider.autoDispose<List<DreamEntry>
   final categoryFilter = ref.watch(selectedCategoryFilterProvider);
   final showLucidOnly = ref.watch(showLucidOnlyProvider);
   final sortOrder = ref.watch(sortOrderProvider);
-  
+
   // Watch the base entries to ensure we refresh when dreams are added/updated/deleted
   final baseEntries = await ref.watch(dreamEntriesProvider.future);
-  
+
   List<DreamEntry> entries = List.from(baseEntries);
 
   // Apply search filter
   if (query.isNotEmpty) {
     entries = entries.where((entry) {
       final queryLower = query.toLowerCase();
-      return entry.content.toLowerCase().contains(queryLower) ||
-             entry.tags.any((tag) => tag.toLowerCase().contains(queryLower));
+      return entry.content.toLowerCase().contains(queryLower) || entry.tags.any((tag) => tag.toLowerCase().contains(queryLower));
     }).toList();
   }
 

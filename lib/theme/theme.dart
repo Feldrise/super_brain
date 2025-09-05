@@ -359,11 +359,11 @@ class MaterialTheme {
       // floatingLabelBehavior: FloatingLabelBehavior.always,
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: colorScheme.outlineVariant),
-        borderRadius: BorderRadius.circular(64.0),
+        borderRadius: BorderRadius.circular(12.0),
       ),
       border: OutlineInputBorder(
         borderSide: BorderSide(color: colorScheme.outlineVariant),
-        borderRadius: BorderRadius.circular(64.0),
+        borderRadius: BorderRadius.circular(12.0),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

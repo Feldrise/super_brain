@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:super_brain/features/training/presentation/pages/training_hub_page.dart';
+import 'package:super_brain/features/morning/journal/presentation/pages/dream_journal_page.dart';
 
 class MorningPage extends StatelessWidget {
   const MorningPage({super.key});
@@ -68,6 +69,8 @@ class _RoutineGrid extends StatelessWidget {
           onTap: () {
             if (item['title'] == 'Entraînement') {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingHubPage()));
+            } else if (item['title'] == 'Journal des rêves') {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DreamJournalPage()));
             } else {
               // TODO: Navigate to other routines
             }

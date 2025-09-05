@@ -1,0 +1,38 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to daily word lists for all authenticated users
+    match /daily_word_lists/{document} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can write via Cloud Functions
+    }
+    
+    // User-specific data
+    match /users/{userId} {
+      // User can read/write their own data
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // User word lists
+      match /word_lists/{wordListId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      
+      // Study sessions
+      match /study_sessions/{sessionId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // Allow reading of global tips
+    match /tips/{tipId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can write
+    }
+    
+    // Allow reading of global training plans
+    match /training_plans/{planId} {
+      allow read: if request.auth != null;
+      allow write: if false; // Only admin can write
+    }
+  }
+}

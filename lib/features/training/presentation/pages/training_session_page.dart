@@ -163,11 +163,9 @@ class _BuildSessionStartView extends ConsumerWidget {
 
   void _startSession(BuildContext context, WidgetRef ref) {
     final currentUser = ref.read(currentUserProvider);
-    
+
     if (currentUser == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Veuillez vous connecter pour commencer un entraînement')),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Veuillez vous connecter pour commencer un entraînement')));
       return;
     }
 

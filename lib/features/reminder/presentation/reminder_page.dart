@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:super_brain/features/reminder/presentation/widgets/words_section.dart';
 import 'package:super_brain/features/reminder/presentation/widgets/summaries_section.dart';
+import 'package:super_brain/features/words/presentation/pages/create_word_list_page.dart';
 
 class ReminderPage extends StatelessWidget {
   const ReminderPage({super.key});
@@ -47,7 +48,7 @@ class ReminderPage extends StatelessWidget {
               title: const Text('Nouvelle liste de mots'),
               onTap: () {
                 Navigator.of(context).pop();
-                // TODO: Navigate to create word list
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CreateWordListPage()));
               },
             ),
             ListTile(

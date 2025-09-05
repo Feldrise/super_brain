@@ -50,7 +50,7 @@ class _UserStatsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
-    
+
     if (currentUser == null) {
       return Card(
         child: Padding(

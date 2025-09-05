@@ -1,105 +1,115 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_brain/features/words/domain/entities/word_list.dart';
+import 'package:super_brain/features/words/domain/usecases/srs_calculator.dart';
+import 'package:super_brain/features/words/presentation/pages/study_session_page.dart';
+import 'package:super_brain/features/words/presentation/providers/word_list_providers.dart';
 
-class WordsSection extends StatelessWidget {
+class WordsSection extends ConsumerWidget {
   const WordsSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Mock data for demonstration - word lists for memory training
-    final wordLists = [
-      {
-        'title': 'Liste animaux - 15 mots',
-        'words': ['Éléphant', 'Papillon', 'Renard', 'Dauphin', 'Hibou'],
-        'totalWords': 15,
-        'nextReview': 'Dans 2 heures',
-        'difficulty': 'Facile',
-      },
-      {
-        'title': 'Objets quotidiens - 20 mots',
-        'words': ['Fourchette', 'Parapluie', 'Clavier', 'Bouteille', 'Miroir'],
-        'totalWords': 20,
-        'nextReview': 'Dans 1 jour',
-        'difficulty': 'Moyen',
-      },
-      {
-        'title': 'Mots abstraits - 12 mots',
-        'words': ['Liberté', 'Courage', 'Harmonie', 'Mystère', 'Passion'],
-        'totalWords': 12,
-        'nextReview': 'Dans 3 jours',
-        'difficulty': 'Difficile',
-      },
-    ];
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wordListsAsync = ref.watch(allWordListsProvider);
 
-    if (wordLists.isEmpty) {
-      return const _EmptyState(icon: Icons.list_alt, title: 'Aucune liste à réviser', subtitle: 'Créez vos premières listes de mots pour entraîner votre mémoire !');
-    }
+    return wordListsAsync.when(
+      data: (wordLists) {
+        if (wordLists.isEmpty) {
+          return const _EmptyState(icon: Icons.list_alt, title: 'Aucune liste à réviser', subtitle: 'Créez vos premières listes de mots pour entraîner votre mémoire !');
+        }
 
-    return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      itemCount: wordLists.length,
-      itemBuilder: (context, index) {
-        final wordList = wordLists[index];
-        return _WordListCard(
-          title: wordList['title']! as String,
-          words: wordList['words']! as List<String>,
-          totalWords: wordList['totalWords']! as int,
-          nextReview: wordList['nextReview']! as String,
-          difficulty: wordList['difficulty']! as String,
-          onTap: () {
-            // TODO: Start memory training for this word list
+        return ListView.builder(
+          padding: const EdgeInsets.all(16),
+          itemCount: wordLists.length,
+          itemBuilder: (context, index) {
+            final wordList = wordLists[index];
+            return _WordListCard(
+              wordList: wordList,
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => StudySessionPage(wordList: wordList, mode: StudyMode.memorization),
+                  ),
+                );
+              },
+            );
           },
         );
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, size: 64, color: Colors.red),
+            const SizedBox(height: 16),
+            Text('Erreur: $error'),
+            const SizedBox(height: 16),
+            ElevatedButton(onPressed: () => ref.refresh(allWordListsProvider), child: const Text('Réessayer')),
+          ],
+        ),
+      ),
     );
   }
 }
 
 class _WordListCard extends StatelessWidget {
-  const _WordListCard({required this.title, required this.words, required this.totalWords, required this.nextReview, required this.difficulty, required this.onTap});
+  const _WordListCard({required this.wordList, required this.onTap});
 
-  final String title;
-  final List<String> words;
-  final int totalWords;
-  final String nextReview;
-  final String difficulty;
+  final WordList wordList;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final nextReviewText = SrsCalculator.getNextReviewText(wordList.nextReviewAt);
+    final isDue = SrsCalculator.isDueForReview(wordList);
 
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
-        title: Text(title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+        title: Text(wordList.title, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 8),
             // Preview of first few words
             Text(
-              words.take(3).join(', ') + (words.length > 3 ? '...' : ''),
+              wordList.words.take(3).join(', ') + (wordList.words.length > 3 ? '...' : ''),
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant, fontStyle: FontStyle.italic),
             ),
             const SizedBox(height: 8),
             Row(
               children: [
-                _DifficultyChip(difficulty),
+                _DifficultyChip(wordList.difficulty),
                 const SizedBox(width: 8),
-                Icon(Icons.schedule, size: 16, color: theme.colorScheme.primary),
+                Icon(Icons.schedule, size: 16, color: isDue ? Colors.red : theme.colorScheme.primary),
                 const SizedBox(width: 4),
                 Text(
-                  nextReview,
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.primary, fontWeight: FontWeight.w500),
+                  nextReviewText,
+                  style: theme.textTheme.bodySmall?.copyWith(color: isDue ? Colors.red : theme.colorScheme.primary, fontWeight: FontWeight.w500),
                 ),
+                const SizedBox(width: 8),
+                if (wordList.isUserCreated) Icon(Icons.person, size: 16, color: theme.colorScheme.secondary),
               ],
             ),
+            const SizedBox(height: 4),
+            Text('${wordList.words.length} mots', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
           ],
         ),
         trailing: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant)],
+          children: [
+            if (isDue)
+              Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(8)),
+                child: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white),
+              )
+            else
+              Icon(Icons.arrow_forward_ios, size: 16, color: theme.colorScheme.onSurfaceVariant),
+          ],
         ),
         onTap: onTap,
       ),

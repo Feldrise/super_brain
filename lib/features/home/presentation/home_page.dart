@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:super_brain/features/home/presentation/widgets/tip_of_day_card.dart';
 import 'package:super_brain/features/home/presentation/widgets/quick_stats_card.dart';
 import 'package:super_brain/features/home/presentation/widgets/quick_actions_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('SuperBrain'), backgroundColor: Colors.transparent, elevation: 0, centerTitle: true),
       body: SingleChildScrollView(

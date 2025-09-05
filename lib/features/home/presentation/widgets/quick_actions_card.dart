@@ -23,8 +23,15 @@ class QuickActionsCard extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: 2.5,
+              childAspectRatio: 2.2,
               children: [
+                _ActionButton(
+                  icon: Icons.lightbulb_outlined,
+                  label: 'Conseils',
+                  onTap: () {
+                    context.go('/tips');
+                  },
+                ),
                 _ActionButton(
                   icon: Icons.psychology_outlined,
                   label: 'Mémoriser',

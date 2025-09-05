@@ -7,6 +7,7 @@ import 'package:super_brain/features/auth/presentation/pages/login_page.dart';
 import 'package:super_brain/features/auth/presentation/pages/register_page.dart';
 import 'package:super_brain/features/auth/presentation/pages/forgot_password_page.dart';
 import 'package:super_brain/features/home/presentation/home_page.dart';
+import 'package:super_brain/features/home/presentation/pages/tips_list_page.dart';
 import 'package:super_brain/features/reminder/presentation/reminder_page.dart';
 import 'package:super_brain/features/morning/presentation/morning_page.dart';
 import 'package:super_brain/features/profile/presentation/profile_page.dart';
@@ -72,6 +73,11 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: "/home",
             builder: (context, state) => const HomePage(),
             pageBuilder: (context, state) => _buildPageWithDefaultTransition(context: context, state: state, child: const HomePage()),
+          ),
+          GoRoute(
+            path: "/tips",
+            builder: (context, state) => const TipsListPage(),
+            pageBuilder: (context, state) => _buildPageWithDefaultTransition(context: context, state: state, child: const TipsListPage()),
           ),
           GoRoute(
             path: "/reminder",

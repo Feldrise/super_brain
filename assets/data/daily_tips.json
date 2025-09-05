@@ -1,0 +1,212 @@
+[
+    {
+        "id": "1",
+        "title": "Technique Pomodoro",
+        "content": "Saviez-vous que faire une pause toutes les 25 minutes améliore la concentration et la mémorisation ? C'est la technique Pomodoro ! Travaillez 25 minutes puis prenez une pause de 5 minutes. Cette méthode, créée par Francesco Cirillo, aide à maintenir un niveau de concentration optimal tout en évitant la fatigue mentale.",
+        "category": "productivity",
+        "createdAt": "2024-09-01T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "pomodoro",
+            "concentration",
+            "pause",
+            "productivité"
+        ]
+    },
+    {
+        "id": "2",
+        "title": "Méthode des Loci",
+        "content": "La méthode des loci, aussi appelée 'palais de mémoire', consiste à associer des informations à des lieux familiers. Imaginez-vous parcourir votre maison et placer chaque élément à mémoriser dans une pièce différente. Cette technique utilisée depuis l'Antiquité peut améliorer votre mémoire de 300% !",
+        "category": "memory",
+        "createdAt": "2024-09-02T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "mémoire",
+            "palais",
+            "visualisation",
+            "antiquité"
+        ]
+    },
+    {
+        "id": "3",
+        "title": "Répétition espacée",
+        "content": "Pour optimiser votre mémoire à long terme, révisez vos informations selon des intervalles croissants : 1 jour, 3 jours, 1 semaine, 2 semaines, 1 mois. Cette technique exploite la courbe d'oubli d'Ebbinghaus et peut multiplier par 10 votre rétention d'informations.",
+        "category": "memory",
+        "createdAt": "2024-09-03T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "révision",
+            "mémoire",
+            "long terme",
+            "ebbinghaus"
+        ]
+    },
+    {
+        "id": "4",
+        "title": "Méditation et focus",
+        "content": "Juste 10 minutes de méditation par jour peuvent améliorer votre capacité de concentration de 15%. Essayez de méditer le matin avant de commencer vos activités. La méditation de pleine conscience renforce littéralement les zones du cerveau responsables de l'attention.",
+        "category": "concentration",
+        "createdAt": "2024-09-04T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "méditation",
+            "focus",
+            "matin",
+            "pleine conscience"
+        ]
+    },
+    {
+        "id": "5",
+        "title": "Hydratation du cerveau",
+        "content": "Votre cerveau est composé de 75% d'eau. Une déshydratation de seulement 2% peut réduire vos performances cognitives de 20%. Buvez régulièrement ! L'idéal est de consommer 8 verres d'eau par jour pour maintenir un cerveau en pleine forme.",
+        "category": "health",
+        "createdAt": "2024-09-05T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "hydratation",
+            "eau",
+            "performance",
+            "cognitive"
+        ]
+    },
+    {
+        "id": "6",
+        "title": "Sommeil et consolidation",
+        "content": "Le sommeil consolide vos souvenirs. Pendant que vous dormez, votre cerveau trie et renforce les informations importantes apprises dans la journée. Une nuit de sommeil peut améliorer vos performances d'apprentissage de 40% le lendemain.",
+        "category": "health",
+        "createdAt": "2024-08-30T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "sommeil",
+            "consolidation",
+            "mémoire",
+            "apprentissage"
+        ]
+    },
+    {
+        "id": "7",
+        "title": "Exercice physique",
+        "content": "L'exercice physique augmente la production de BDNF (facteur neurotrophique), une protéine qui favorise la croissance des neurones et améliore l'apprentissage. Juste 20 minutes d'exercice modéré peuvent booster votre cerveau pendant 2 heures !",
+        "category": "health",
+        "createdAt": "2024-08-29T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "exercice",
+            "neurones",
+            "apprentissage",
+            "BDNF"
+        ]
+    },
+    {
+        "id": "8",
+        "title": "Chunking",
+        "content": "Divisez les informations complexes en petits groupes logiques (chunks). Par exemple, mémorisez un numéro de téléphone par groupes de 2-3 chiffres plutôt qu'en une seule séquence. Notre mémoire à court terme peut retenir 7±2 éléments, mais ces 'chunks' peuvent contenir plusieurs informations !",
+        "category": "learning",
+        "createdAt": "2024-08-28T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "chunking",
+            "groupage",
+            "mémorisation",
+            "mémoire court terme"
+        ]
+    },
+    {
+        "id": "9",
+        "title": "Enseignement pour apprendre",
+        "content": "Expliquer ce que vous venez d'apprendre à quelqu'un d'autre (ou même à vous-même à voix haute) renforce votre compréhension et révèle les lacunes. Cette technique, appelée 'effet Feynman', peut améliorer votre compréhension de 90%.",
+        "category": "learning",
+        "createdAt": "2024-08-27T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "enseignement",
+            "explication",
+            "compréhension",
+            "feynman"
+        ]
+    },
+    {
+        "id": "10",
+        "title": "Visualisation positive",
+        "content": "Visualisez-vous en train de réussir vos objectifs d'apprentissage. Cette technique active les mêmes zones cérébrales que lors de l'action réelle. Les athlètes olympiques utilisent cette méthode pour améliorer leurs performances de 25% sans entraînement physique !",
+        "category": "motivation",
+        "createdAt": "2024-08-26T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "visualisation",
+            "motivation",
+            "objectifs",
+            "olympiques"
+        ]
+    },
+    {
+        "id": "11",
+        "title": "Technique des acronymes",
+        "content": "Créez des acronymes pour mémoriser des listes. Par exemple, 'SMART' pour des objectifs Spécifiques, Mesurables, Atteignables, Réalistes, Temporels. Cette technique exploite notre capacité naturelle à retenir des mots plutôt que des listes.",
+        "category": "memory",
+        "createdAt": "2024-08-25T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "acronymes",
+            "listes",
+            "mémorisation",
+            "mots"
+        ]
+    },
+    {
+        "id": "12",
+        "title": "Musique et concentration",
+        "content": "La musique classique ou instrumentale peut améliorer votre concentration et vos performances cognitives. L'effet Mozart n'est pas un mythe ! Évitez cependant la musique avec paroles qui peut distraire votre cerveau verbal.",
+        "category": "concentration",
+        "createdAt": "2024-08-24T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "musique",
+            "mozart",
+            "classique",
+            "instrumental"
+        ]
+    },
+    {
+        "id": "13",
+        "title": "Technique de l'arbre à problèmes",
+        "content": "Pour résoudre un problème complexe, dessinez-le comme un arbre : le tronc est le problème principal, les branches sont les sous-problèmes, les feuilles sont les solutions. Cette visualisation aide votre cerveau à structurer sa réflexion.",
+        "category": "learning",
+        "createdAt": "2024-08-23T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "problème",
+            "arbre",
+            "visualisation",
+            "structure"
+        ]
+    },
+    {
+        "id": "14",
+        "title": "Alimentation du cerveau",
+        "content": "Les noix, les myrtilles et le chocolat noir sont excellents pour la mémoire. Les oméga-3 du poisson améliorent les connexions neuronales. Un petit-déjeuner équilibré peut améliorer vos performances cognitives de 30% dans la matinée.",
+        "category": "health",
+        "createdAt": "2024-08-22T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "alimentation",
+            "noix",
+            "myrtilles",
+            "oméga-3"
+        ]
+    },
+    {
+        "id": "15",
+        "title": "La règle des 20-20-20",
+        "content": "Toutes les 20 minutes, regardez quelque chose à 20 mètres pendant 20 secondes. Cette règle repose vos yeux et votre cerveau, prévient la fatigue visuelle et maintient votre concentration optimale lors du travail sur écran.",
+        "category": "health",
+        "createdAt": "2024-08-21T10:00:00Z",
+        "isRead": false,
+        "tags": [
+            "yeux",
+            "écran",
+            "fatigue",
+            "concentration"
+        ]
+    }
+]

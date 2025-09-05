@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../providers/tip_providers.dart';
+import '../pages/tip_detail_page.dart';
 
-class TipOfDayCard extends StatelessWidget {
+class TipOfDayCard extends ConsumerWidget {
   const TipOfDayCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final dailyTipAsync = ref.watch(dailyTipProvider);
 
     return Card(
       elevation: 2,
@@ -25,24 +30,53 @@ class TipOfDayCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
-            Text(
-              'Saviez-vous que faire une pause toutes les 25 minutes améliore la concentration et la mémorisation ? C\'est la technique Pomodoro !',
-              style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant, height: 1.4),
+            dailyTipAsync.when(
+              data: (tip) => tip != null
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tip.title,
+                          style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600, color: theme.colorScheme.onSurface),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          tip.content,
+                          style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant, height: 1.4),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    )
+                  : Text('Aucun conseil disponible pour aujourd\'hui.', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant, height: 1.4)),
+              loading: () => const SizedBox(height: 60, child: Center(child: CircularProgressIndicator())),
+              error: (error, stack) => Text('Erreur lors du chargement du conseil.', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.error)),
             ),
             const SizedBox(height: 12),
-            Align(
-              alignment: Alignment.centerRight,
-              child: TextButton.icon(
-                onPressed: () {
-                  // TODO: Navigate to tips section
-                },
-                icon: const Icon(Icons.arrow_forward, size: 16),
-                label: const Text('Voir plus'),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                dailyTipAsync.when(
+                  data: (tip) => tip != null
+                      ? TextButton.icon(onPressed: () => _navigateToTipDetail(context, tip), icon: const Icon(Icons.visibility, size: 16), label: const Text('Lire'))
+                      : const SizedBox.shrink(),
+                  loading: () => const SizedBox.shrink(),
+                  error: (error, stack) => const SizedBox.shrink(),
+                ),
+                TextButton.icon(onPressed: () => _navigateToTipsList(context), icon: const Icon(Icons.arrow_forward, size: 16), label: const Text('Voir plus')),
+              ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _navigateToTipDetail(BuildContext context, tip) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => TipDetailPage(tip: tip)));
+  }
+
+  void _navigateToTipsList(BuildContext context) {
+    context.push('/tips');
   }
 }

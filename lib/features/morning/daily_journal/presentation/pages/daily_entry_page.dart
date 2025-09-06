@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:super_brain/core/widgets/unsaved_changes_dialog.dart';
 import 'package:super_brain/features/morning/daily_journal/domain/entities/daily_entry.dart';
 import 'package:super_brain/features/morning/daily_journal/presentation/providers/daily_journal_providers.dart';
 
@@ -20,6 +21,14 @@ class _DailyEntryPageState extends ConsumerState<DailyEntryPage> {
   late final TextEditingController _goalsController;
   final _formKey = GlobalKey<FormState>();
 
+  // Track initial values to detect changes
+  String _initialContent = '';
+  String _initialReflection = '';
+  String _initialGratitude = '';
+  String _initialGoals = '';
+  String? _initialMood;
+  DateTime? _initialEntryDate;
+
   @override
   void initState() {
     super.initState();
@@ -29,6 +38,23 @@ class _DailyEntryPageState extends ConsumerState<DailyEntryPage> {
     _reflectionController = TextEditingController();
     _gratitudeController = TextEditingController();
     _goalsController = TextEditingController();
+
+    // Store initial values
+    if (widget.entry != null) {
+      _initialContent = widget.entry!.content;
+      _initialReflection = widget.entry!.reflection ?? '';
+      _initialGratitude = widget.entry!.gratitudeList.join('\n');
+      _initialGoals = widget.entry!.goalsForToday.join('\n');
+      _initialMood = widget.entry!.mood;
+      _initialEntryDate = widget.entry!.entryDate;
+    } else {
+      _initialContent = '';
+      _initialReflection = '';
+      _initialGratitude = '';
+      _initialGoals = '';
+      _initialMood = null;
+      _initialEntryDate = DateTime.now();
+    }
 
     // Set up editing if entry is provided
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -59,80 +85,125 @@ class _DailyEntryPageState extends ConsumerState<DailyEntryPage> {
     super.dispose();
   }
 
+  /// Check if there are unsaved changes in the form
+  bool _hasUnsavedChanges() {
+    if (widget.isReadOnly) return false;
+
+    final formState = ref.read(dailyEntryFormProvider);
+
+    return _contentController.text != _initialContent ||
+        _reflectionController.text != _initialReflection ||
+        _gratitudeController.text != _initialGratitude ||
+        _goalsController.text != _initialGoals ||
+        formState.mood != _initialMood ||
+        formState.entryDate != _initialEntryDate;
+  }
+
+  /// Handle back button press with confirmation
+  Future<bool> _onWillPop() async {
+    if (!_hasUnsavedChanges()) {
+      return true;
+    }
+
+    return await UnsavedChangesDialog.show(
+      context,
+      title: 'Modifications non sauvegardées',
+      content: 'Vous avez des modifications non sauvegardées. Que voulez-vous faire ?',
+      onSave: () {
+        Navigator.of(context).pop();
+        _saveDailyEntry();
+      },
+      onDiscard: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isEditing = widget.entry != null;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.isReadOnly
-              ? 'Lecture'
-              : isEditing
-              ? 'Modifier l\'entrée'
-              : 'Nouvelle entrée',
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final shouldPop = await _onWillPop();
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            widget.isReadOnly
+                ? 'Lecture'
+                : isEditing
+                ? 'Modifier l\'entrée'
+                : 'Nouvelle entrée',
+          ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          actions: widget.isReadOnly
+              ? [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DailyEntryPage(entry: widget.entry)));
+                    },
+                  ),
+                ]
+              : null,
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        actions: widget.isReadOnly
-            ? [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DailyEntryPage(entry: widget.entry)));
-                  },
+        body: Form(
+          key: _formKey,
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(16),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    // Date selector
+                    _buildDateSelector(context, theme),
+                    const SizedBox(height: 24),
+
+                    // Main content section
+                    _buildMainContentSection(theme),
+                    const SizedBox(height: 24),
+
+                    // Mood selector
+                    _buildMoodSelector(theme),
+                    const SizedBox(height: 24),
+
+                    // Gratitude section
+                    _buildGratitudeSection(theme),
+                    const SizedBox(height: 24),
+
+                    // Goals section
+                    _buildGoalsSection(theme),
+                    const SizedBox(height: 24),
+
+                    // Reflection section
+                    _buildReflectionSection(theme),
+                    const SizedBox(height: 100), // Space for FAB
+                  ]),
                 ),
-              ]
-            : null,
-      ),
-      body: Form(
-        key: _formKey,
-        child: CustomScrollView(
-          slivers: [
-            SliverPadding(
-              padding: const EdgeInsets.all(16),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  // Date selector
-                  _buildDateSelector(context, theme),
-                  const SizedBox(height: 24),
-
-                  // Main content section
-                  _buildMainContentSection(theme),
-                  const SizedBox(height: 24),
-
-                  // Mood selector
-                  _buildMoodSelector(theme),
-                  const SizedBox(height: 24),
-
-                  // Gratitude section
-                  _buildGratitudeSection(theme),
-                  const SizedBox(height: 24),
-
-                  // Goals section
-                  _buildGoalsSection(theme),
-                  const SizedBox(height: 24),
-
-                  // Reflection section
-                  _buildReflectionSection(theme),
-                  const SizedBox(height: 100), // Space for FAB
-                ]),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        floatingActionButton: widget.isReadOnly
+            ? null
+            : FloatingActionButton.extended(
+                onPressed: _saveDailyEntry,
+                icon: const Icon(Icons.save),
+                label: Text(isEditing ? 'Mettre à jour' : 'Sauvegarder'),
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+              ),
       ),
-      floatingActionButton: widget.isReadOnly
-          ? null
-          : FloatingActionButton.extended(
-              onPressed: _saveDailyEntry,
-              icon: const Icon(Icons.save),
-              label: Text(isEditing ? 'Mettre à jour' : 'Sauvegarder'),
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
-            ),
     );
   }
 

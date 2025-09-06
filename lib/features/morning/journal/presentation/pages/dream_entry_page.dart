@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:super_brain/core/widgets/unsaved_changes_dialog.dart';
 import 'package:super_brain/features/morning/journal/domain/entities/dream_entry.dart';
 import 'package:super_brain/features/morning/journal/presentation/providers/dream_journal_providers.dart';
 import 'package:super_brain/features/morning/journal/presentation/widgets/dream_widgets.dart';
@@ -19,11 +20,29 @@ class _DreamEntryPageState extends ConsumerState<DreamEntryPage> {
   late final TextEditingController _tagsController;
   final _formKey = GlobalKey<FormState>();
 
+  // Track initial values to detect changes
+  String _initialContent = '';
+  String _initialTags = '';
+  String? _initialMood;
+  String? _initialCategory;
+  bool _initialIsLucid = false;
+  bool _initialIsRecurring = false;
+  DateTime? _initialDreamDate;
+
   @override
   void initState() {
     super.initState();
     _contentController = TextEditingController(text: widget.entry?.content ?? '');
     _tagsController = TextEditingController(text: widget.entry?.tags.join(', ') ?? '');
+
+    // Store initial values
+    _initialContent = widget.entry?.content ?? '';
+    _initialTags = widget.entry?.tags.join(', ') ?? '';
+    _initialMood = widget.entry?.mood;
+    _initialCategory = widget.entry?.category;
+    _initialIsLucid = widget.entry?.isLucid ?? false;
+    _initialIsRecurring = widget.entry?.isRecurring ?? false;
+    _initialDreamDate = widget.entry?.dreamDate;
 
     // Initialize form state if editing
     if (widget.entry != null) {
@@ -50,50 +69,94 @@ class _DreamEntryPageState extends ConsumerState<DreamEntryPage> {
     super.dispose();
   }
 
+  /// Check if there are unsaved changes in the form
+  bool _hasUnsavedChanges() {
+    final formState = ref.read(dreamEntryFormProvider);
+
+    return _contentController.text != _initialContent ||
+        _tagsController.text != _initialTags ||
+        formState.mood != _initialMood ||
+        formState.category != _initialCategory ||
+        formState.isLucid != _initialIsLucid ||
+        formState.isRecurring != _initialIsRecurring ||
+        formState.dreamDate != _initialDreamDate;
+  }
+
+  /// Handle back button press with confirmation
+  Future<bool> _onWillPop() async {
+    if (!_hasUnsavedChanges()) {
+      return true;
+    }
+
+    return await UnsavedChangesDialog.show(
+      context,
+      title: 'Modifications non sauvegardées',
+      content: 'Vous avez des modifications non sauvegardées. Que voulez-vous faire ?',
+      onSave: () {
+        Navigator.of(context).pop();
+        _saveDream();
+      },
+      onDiscard: () {
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final formState = ref.watch(dreamEntryFormProvider);
     final isEditing = widget.entry != null;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(isEditing ? 'Modifier le rêve' : 'Nouveau rêve'),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        centerTitle: true,
-        actions: [if (isEditing) IconButton(onPressed: _showDeleteDialog, icon: const Icon(Icons.delete_outline))],
-      ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildContentField(),
-              const SizedBox(height: 16),
-              QuickDreamPrompts(
-                onPromptSelected: (prompt) {
-                  final currentText = _contentController.text;
-                  final newText = currentText.isEmpty ? prompt : '$currentText $prompt';
-                  _contentController.text = newText;
-                  _contentController.selection = TextSelection.fromPosition(TextPosition(offset: newText.length));
-                  ref.read(dreamEntryFormProvider.notifier).updateContent(newText);
-                },
-              ),
-              const SizedBox(height: 24),
-              _buildMoodSection(formState),
-              const SizedBox(height: 24),
-              _buildCategorySection(formState),
-              const SizedBox(height: 24),
-              _buildPropertiesSection(formState),
-              const SizedBox(height: 24),
-              _buildDateSection(formState),
-              const SizedBox(height: 24),
-              _buildTagsField(),
-              const SizedBox(height: 32),
-              _buildSaveButton(),
-            ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final shouldPop = await _onWillPop();
+        if (shouldPop && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(isEditing ? 'Modifier le rêve' : 'Nouveau rêve'),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          centerTitle: true,
+          actions: [if (isEditing) IconButton(onPressed: _showDeleteDialog, icon: const Icon(Icons.delete_outline))],
+        ),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildContentField(),
+                const SizedBox(height: 16),
+                QuickDreamPrompts(
+                  onPromptSelected: (prompt) {
+                    final currentText = _contentController.text;
+                    final newText = currentText.isEmpty ? prompt : '$currentText $prompt';
+                    _contentController.text = newText;
+                    _contentController.selection = TextSelection.fromPosition(TextPosition(offset: newText.length));
+                    ref.read(dreamEntryFormProvider.notifier).updateContent(newText);
+                  },
+                ),
+                const SizedBox(height: 24),
+                _buildMoodSection(formState),
+                const SizedBox(height: 24),
+                _buildCategorySection(formState),
+                const SizedBox(height: 24),
+                _buildPropertiesSection(formState),
+                const SizedBox(height: 24),
+                _buildDateSection(formState),
+                const SizedBox(height: 24),
+                _buildTagsField(),
+                const SizedBox(height: 32),
+                _buildSaveButton(),
+              ],
+            ),
           ),
         ),
       ),

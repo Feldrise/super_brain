@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:super_brain/features/training/presentation/pages/training_hub_page.dart';
+import 'package:super_brain/features/training/presentation/pages/training_plans_page.dart';
+import 'package:super_brain/features/training/domain/entities/training_entities.dart';
+import 'package:super_brain/features/morning/daily_journal/presentation/pages/daily_journal_page.dart';
 
 class QuickActionsCard extends StatelessWidget {
   const QuickActionsCard({super.key});
@@ -43,21 +47,24 @@ class QuickActionsCard extends StatelessWidget {
                   icon: Icons.self_improvement_outlined,
                   label: 'Respiration',
                   onTap: () {
-                    context.go('/morning');
+                    // Navigate to yoga training plans for breathing exercises
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingPlansPage(filterCategory: TrainingCategory.yoga)));
                   },
                 ),
                 _ActionButton(
                   icon: Icons.edit_note_outlined,
                   label: 'Journal',
                   onTap: () {
-                    context.go('/morning');
+                    // Navigate directly to daily journal page
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DailyJournalPage()));
                   },
                 ),
                 _ActionButton(
                   icon: Icons.fitness_center_outlined,
                   label: 'Entraînement',
                   onTap: () {
-                    context.go('/morning');
+                    // Navigate to training hub
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TrainingHubPage()));
                   },
                 ),
               ],

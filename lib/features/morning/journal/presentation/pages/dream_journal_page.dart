@@ -154,13 +154,36 @@ class DreamJournalPage extends ConsumerWidget {
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Annuler')),
           FilledButton(
-            onPressed: () {
-              final deleteUseCase = ref.read(deleteDreamEntryUseCaseProvider);
-              if (deleteUseCase != null) {
-                deleteUseCase.call(dream.id);
+            onPressed: () async {
+              try {
+                final deleteUseCase = ref.read(deleteDreamEntryUseCaseProvider);
+                if (deleteUseCase != null) {
+                  await deleteUseCase.call(dream.id);
+
+                  // Refresh the dream entries list
+                  ref.invalidate(dreamEntriesProvider);
+                  ref.invalidate(filteredDreamEntriesProvider);
+
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rêve supprimé'), behavior: SnackBarBehavior.floating));
+                  }
+                } else {
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(const SnackBar(content: Text('Erreur: utilisateur non connecté'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+                  }
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text('Erreur lors de la suppression'), backgroundColor: Colors.red, behavior: SnackBarBehavior.floating));
+                }
               }
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Rêve supprimé'), behavior: SnackBarBehavior.floating));
             },
             style: FilledButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error, foregroundColor: Theme.of(context).colorScheme.onError),
             child: const Text('Supprimer'),

@@ -25,7 +25,6 @@ class QuickStatsCard extends ConsumerWidget {
                 children: [
                   _StatItem(icon: Icons.local_fire_department, value: '${stats.streakCount}', label: 'Série', color: theme.colorScheme.primary),
                   _StatItem(icon: Icons.psychology_outlined, value: '${stats.wordsLearned}', label: 'Mots mémorisés', color: theme.colorScheme.secondary),
-                  _StatItem(icon: Icons.book_outlined, value: '${stats.summariesCount}', label: 'Résumés', color: theme.colorScheme.tertiary),
                 ],
               ),
               loading: () => Row(
@@ -33,7 +32,6 @@ class QuickStatsCard extends ConsumerWidget {
                 children: [
                   _StatItem(icon: Icons.local_fire_department, value: '...', label: 'Série', color: theme.colorScheme.primary),
                   _StatItem(icon: Icons.psychology_outlined, value: '...', label: 'Mots mémorisés', color: theme.colorScheme.secondary),
-                  _StatItem(icon: Icons.book_outlined, value: '...', label: 'Résumés', color: theme.colorScheme.tertiary),
                 ],
               ),
               error: (error, stackTrace) => Row(
@@ -41,7 +39,6 @@ class QuickStatsCard extends ConsumerWidget {
                 children: [
                   _StatItem(icon: Icons.local_fire_department, value: '0', label: 'Série', color: theme.colorScheme.primary),
                   _StatItem(icon: Icons.psychology_outlined, value: '0', label: 'Mots mémorisés', color: theme.colorScheme.secondary),
-                  _StatItem(icon: Icons.book_outlined, value: '0', label: 'Résumés', color: theme.colorScheme.tertiary),
                 ],
               ),
             ),

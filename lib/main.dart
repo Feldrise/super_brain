@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:intl/intl_standalone.dart';
+import 'package:super_brain/core/debugging.dart';
 import 'package:super_brain/features/navigation/routes.dart';
 import 'package:super_brain/firebase_options.dart';
 import 'package:super_brain/theme/theme.dart';
@@ -15,6 +17,15 @@ Future<void> main() async {
 
   await findSystemLocale();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // In debug mode, populate test data
+  if (kDebugMode) {
+    try {
+      // await DebugHelper.populateTestData();
+    } catch (e) {
+      debugPrint('Failed to populate test data: $e');
+    }
+  }
 
   runApp(const ProviderScope(child: MyApp()));
 }

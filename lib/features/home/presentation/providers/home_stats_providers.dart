@@ -24,13 +24,12 @@ final userTrainingStatsProvider = StreamProvider<TrainingStats?>((ref) {
 class HomeStats {
   final int streakCount;
   final int wordsLearned;
-  final int summariesCount;
   final int journalStreak;
   final int trainingSessionsCount;
 
-  const HomeStats({required this.streakCount, required this.wordsLearned, required this.summariesCount, required this.journalStreak, required this.trainingSessionsCount});
+  const HomeStats({required this.streakCount, required this.wordsLearned, required this.journalStreak, required this.trainingSessionsCount});
 
-  static const empty = HomeStats(streakCount: 0, wordsLearned: 0, summariesCount: 0, journalStreak: 0, trainingSessionsCount: 0);
+  static const empty = HomeStats(streakCount: 0, wordsLearned: 0, journalStreak: 0, trainingSessionsCount: 0);
 }
 
 // Provider that aggregates stats from different features
@@ -51,9 +50,6 @@ final homeStatsProvider = FutureProvider<HomeStats>((ref) async {
     final journalStreakAsync = ref.watch(journalStreakProvider);
     final journalStreak = await journalStreakAsync.when(data: (data) => Future.value(data), loading: () => Future.value(0), error: (_, __) => Future.value(0));
 
-    // TODO: Get summaries count when summaries feature is implemented
-    final summariesCount = 5; // Mock data for now
-
     // Get training stats if available
     int trainingSessionsCount = 0;
     try {
@@ -65,13 +61,7 @@ final homeStatsProvider = FutureProvider<HomeStats>((ref) async {
       // print('Training stats not available: $e'); // Debug only
     }
 
-    return HomeStats(
-      streakCount: appUser?.streakCount ?? 0,
-      wordsLearned: learnedWords.length,
-      summariesCount: summariesCount,
-      journalStreak: journalStreak,
-      trainingSessionsCount: trainingSessionsCount,
-    );
+    return HomeStats(streakCount: appUser?.streakCount ?? 0, wordsLearned: learnedWords.length, journalStreak: journalStreak, trainingSessionsCount: trainingSessionsCount);
   } catch (e) {
     // print('Error loading home stats: $e'); // Debug only
     return HomeStats.empty;
@@ -87,9 +77,4 @@ final userStreakProvider = Provider<int>((ref) {
 final learnedWordsCountProvider = Provider<int>((ref) {
   final learnedWordsAsync = ref.watch(learnedWordListsProvider);
   return learnedWordsAsync.when(data: (learnedWords) => learnedWords.length, loading: () => 0, error: (_, __) => 0);
-});
-
-final summariesCountProvider = Provider<int>((ref) {
-  // TODO: Replace with real summaries provider when feature is implemented
-  return 5; // Mock data
 });

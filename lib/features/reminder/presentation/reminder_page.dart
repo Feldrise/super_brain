@@ -3,65 +3,66 @@ import 'package:super_brain/features/reminder/presentation/widgets/words_section
 import 'package:super_brain/features/reminder/presentation/widgets/summaries_section.dart';
 import 'package:super_brain/features/words/presentation/pages/create_word_list_page.dart';
 
-class ReminderPage extends StatelessWidget {
+class ReminderPage extends StatefulWidget {
   const ReminderPage({super.key});
 
   @override
+  State<ReminderPage> createState() => _ReminderPageState();
+}
+
+class _ReminderPageState extends State<ReminderPage> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  int _currentTabIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {
+        _currentTabIndex = _tabController.index;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Rappels'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          centerTitle: true,
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.list_alt), text: 'Listes de mots'),
-              Tab(icon: Icon(Icons.summarize), text: 'Résumés'),
-            ],
-          ),
-        ),
-        body: TabBarView(children: [WordsSection(), SummariesSection()]),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            _showAddDialog(context);
-          },
-          icon: const Icon(Icons.add),
-          label: const Text('Ajouter'),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Rappels'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(icon: Icon(Icons.list_alt), text: 'Listes de mots'),
+            Tab(icon: Icon(Icons.summarize), text: 'Résumés'),
+          ],
         ),
       ),
+      body: TabBarView(controller: _tabController, children: [WordsSection(), SummariesSection()]),
+      // Only show floating action button on words tab (index 0)
+      floatingActionButton: _currentTabIndex == 0
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                _showAddDialog(context);
+              },
+              icon: const Icon(Icons.add),
+              label: const Text('Nouvelle liste'),
+            )
+          : null,
     );
   }
 
   void _showAddDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Que voulez-vous ajouter ?'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.list_alt),
-              title: const Text('Nouvelle liste de mots'),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CreateWordListPage()));
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.summarize),
-              title: const Text('Nouveau résumé'),
-              onTap: () {
-                Navigator.of(context).pop();
-                // TODO: Navigate to add summary
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    // Since summaries are creator-only content, users can only add word lists
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CreateWordListPage()));
   }
 }
